@@ -1,4 +1,4 @@
-package model;
+package model.entity;
 public class KhachHang {
   private int IDKhachHang;
   private String TenKhachHang;
