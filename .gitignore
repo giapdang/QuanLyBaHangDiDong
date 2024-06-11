@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/JavaApplication17/nbproject/private/
+/build/
