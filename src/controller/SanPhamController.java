@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.response.Item;
 import model.response.SanPhamResponse;
 import model.service.SanPhamService;
 import view.HomeView;
@@ -24,6 +25,7 @@ public class SanPhamController {
     this.homeView = homeView;
     loadSanPham();
     deleteSanPham();
+    addSanPham();
   }
 
   public void loadSanPham() {
@@ -69,6 +71,32 @@ public class SanPhamController {
             DefaultTableModel model = (DefaultTableModel) homeView.getTable().getModel();
             model.removeRow(row);
           }
+        }
+      }
+    });
+  }
+  public void addSanPham() {
+    homeView.getBtnAdd().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          String MaSanPham = homeView.getTfMasanpham().getText();
+          String TenSanPham = homeView.getTfTensanpham().getText();
+          double GiaBanRa = Double.parseDouble(homeView.getTfGiaBan().getText());
+          double GiaNhap = Double.parseDouble(homeView.getTfGiaNhap().getText());
+          String MoTa = homeView.getTfMoTa().getText();
+
+          Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
+          int IDDanhMuc = selectedDanhMuc.getId();
+
+          Item selectedNhaCungCap = (Item) homeView.getCbTenNhaCungCap().getSelectedItem();
+          int IDNhaCungCap = selectedNhaCungCap.getId();
+
+          sanPhamService.them(MaSanPham, TenSanPham, GiaBanRa, GiaNhap, MoTa, IDDanhMuc, IDNhaCungCap);
+          JOptionPane.showMessageDialog(homeView, "Thêm sản phẩm thành công");
+          loadSanPham(); // Load lại bảng sản phẩm sau khi thêm
+        } catch (NumberFormatException ex) {
+          JOptionPane.showMessageDialog(homeView, "Giá bán và giá nhập phải là số");
         }
       }
     });

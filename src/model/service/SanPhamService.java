@@ -8,9 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import model.response.Item;
 import model.response.SanPhamResponse;
+import view.HomeView;
 
 public class SanPhamService {
+
+  private HomeView homeView;
+
+  public SanPhamService(HomeView homeView) {
+    this.homeView = homeView;
+  }
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -85,4 +93,45 @@ public class SanPhamService {
     }
   }
 
+  public void them(String MaSanPham, String TenSanPham, double GiaBanRa, double GiaNhap,
+      String MoTa, int IDDanhMuc, int IDNhaCungCap) {
+    Connection connection = null;
+    PreparedStatement insertProductStatement = null;
+    PreparedStatement insertStockStatement = null;
+
+    try {
+      connection = Jdbc.getJdbc();
+      connection.setAutoCommit(false); // Bắt đầu giao dịch
+
+      // Thêm hàng vào bảng sanpham
+      insertProductStatement = connection.prepareStatement(
+          "INSERT INTO sanpham (MaSanPham, TenSanPham, GiaBanRa, GiaNhap, MoTa, ThoiGianNhap, IDDanhMuc, IDNhaCungCap) "
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      insertProductStatement.setString(1, homeView.getTfMasanpham().getText());
+      insertProductStatement.setString(2, homeView.getTfTensanpham().getText());
+      insertProductStatement.setDouble(3, Double.parseDouble(homeView.getTfGiaBan().getText()));
+      insertProductStatement.setDouble(4, Double.parseDouble(homeView.getTfGiaNhap().getText()));
+      insertProductStatement.setString(5, homeView.getTfMoTa().getText());
+      insertProductStatement.setString(6, dateFormat.format(new Date()));
+
+      Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
+      insertProductStatement.setInt(7, selectedDanhMuc.getId());
+
+      Item selectedNhaCungCap = (Item) homeView.getCbTenNhaCungCap().getSelectedItem();
+      insertProductStatement.setInt(8, selectedNhaCungCap.getId());
+
+      insertProductStatement.executeUpdate();
+
+      // Thêm hàng vào bảng khohang
+      insertStockStatement = connection.prepareStatement(
+          "INSERT INTO khohang (SoLuongTonKho, NgayNhapKho) VALUES (?,?)");
+      insertStockStatement.setInt(1, 1);
+      insertStockStatement.setString(2, dateFormat.format(new Date()));
+      insertStockStatement.executeUpdate();
+
+      connection.commit(); // Commit giao dịch
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

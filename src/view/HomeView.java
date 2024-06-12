@@ -3,6 +3,10 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import model.response.Item;
+import model.service.DanhMucService;
+import java.util.List;
+import model.service.NhaCungCapService;
 
 public class HomeView extends JFrame {
 
@@ -31,8 +35,8 @@ public class HomeView extends JFrame {
   private JTextField TfGiaNhap;
   private JTextField TfMoTa;
   private JTextField TfThoiGianNhap;
-  private JComboBox<String> CbTenDanhMuc;
-  private JComboBox<String> CbTenNhaCungCap;
+  private JComboBox<Item> CbTenDanhMuc;
+  private JComboBox<Item> CbTenNhaCungCap;
 
   public HomeView() {
     this.setTitle("Quản Lý Bán Hàng Thiết Bị Di Động");
@@ -42,7 +46,8 @@ public class HomeView extends JFrame {
     HomeUi();
     this.setVisible(true);
   }
-//Test thu 
+
+  //Test thu
   public void HomeUi() {
     // Create left panel with buttons
     JPanel leftPanel = new JPanel();
@@ -65,15 +70,15 @@ public class HomeView extends JFrame {
 
     // Create right panel
     JPanel rightPanel = new JPanel();
-    rightPanel.setLayout(new BoxLayout(rightPanel,BoxLayout.Y_AXIS));
-    JPanel rightPanel_row0=new JPanel();
-    rightPanel_row0.setLayout(new FlowLayout(FlowLayout.LEFT,1,30));
+    rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+    JPanel rightPanel_row0 = new JPanel();
+    rightPanel_row0.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 30));
     rightPanel_row0.setBackground(Color.decode("#CDE8E5"));
-    JPanel taokhoangcach=new JPanel();
+    JPanel taokhoangcach = new JPanel();
     taokhoangcach.setBackground(Color.decode("#CDE8E5"));
     rightPanel_row0.add(taokhoangcach);
     rightPanel.add(rightPanel_row0);
-    JPanel chua_rightPanel_row1=new JPanel();
+    JPanel chua_rightPanel_row1 = new JPanel();
     chua_rightPanel_row1.setLayout(new FlowLayout(FlowLayout.LEFT, 23, 1));
     chua_rightPanel_row1.setBackground(Color.decode("#CDE8E5"));
     JPanel rightPanel_row1 = new JPanel();
@@ -121,30 +126,34 @@ public class HomeView extends JFrame {
     addComponent(rightPanel_row1, TfMoTa, gbc, 1, 4);
     addComponent(rightPanel_row1, lbThoiGianNhap, gbc, 0, 5);
     addComponent(rightPanel_row1, TfThoiGianNhap, gbc, 1, 5);
-    JPanel taokhoangcach1=new JPanel();
+    JPanel taokhoangcach1 = new JPanel();
     taokhoangcach1.setBackground(Color.decode("#CDE8E5"));
     chua_rightPanel_row1.add(taokhoangcach1);
     chua_rightPanel_row1.add(rightPanel_row1);
-    rightPanel.add(chua_rightPanel_row1);    
-    
-    
-    JPanel rightPanel_row2=new JPanel();
-    rightPanel_row2.setLayout(new FlowLayout(FlowLayout.LEFT,23,1));
+    rightPanel.add(chua_rightPanel_row1);
+
+    JPanel rightPanel_row2 = new JPanel();
+    rightPanel_row2.setLayout(new FlowLayout(FlowLayout.LEFT, 23, 1));
     rightPanel_row2.setBackground(Color.decode("#CDE8E5"));
-    JPanel taokhoangcach2=new JPanel();
+    JPanel taokhoangcach2 = new JPanel();
     taokhoangcach2.setBackground(Color.decode("#CDE8E5"));
     JPanel G = new JPanel();
     G.setBackground(Color.decode("#CDE8E5"));
-    String[] items_danhmuc = {"Tự", "Thêm", "Tên", "Các", "Danh", "Mục", "Nhé", "!"};
-    CbTenDanhMuc = new JComboBox<>(items_danhmuc);
-    CbTenDanhMuc.setPreferredSize(new Dimension(200, CbTenDanhMuc.getPreferredSize().height));
+
+    // list danh muc san pham
+    DanhMucService danhMucService = new DanhMucService();
+    List<Item> danhMucNames = danhMucService.getDanhMucList();
+    CbTenDanhMuc = new JComboBox<>(danhMucNames.toArray(new Item[0]));
+
+    // list ten nha cung cap
+    NhaCungCapService nhaCungCapService = new NhaCungCapService();
+    List<Item> nhaCungCapNames = nhaCungCapService.getAllTenNhaCungCap();
+    CbTenNhaCungCap = new JComboBox<>(nhaCungCapNames.toArray(new Item[0]));
+
+    JPanel H = new JPanel();
+    H.setBackground(Color.decode("#CDE8E5"));
     G.add(lbTenDanhMuc);
     G.add(CbTenDanhMuc);
-    JPanel H=new JPanel();
-    H.setBackground(Color.decode("#CDE8E5"));
-    String[] items_nhacungcap = {"Tự", "Thêm", "Tên", "Các", "Nhà", "Cung", "Cấp", "Đi", "Nhé", "!"};
-    CbTenNhaCungCap = new JComboBox<>(items_nhacungcap);
-    CbTenNhaCungCap.setPreferredSize(new Dimension(200, CbTenNhaCungCap.getPreferredSize().height));   
     H.add(lbTenNhaCungCap);
     H.add(CbTenNhaCungCap);
     rightPanel_row2.add(taokhoangcach2);
@@ -154,7 +163,7 @@ public class HomeView extends JFrame {
 
     // Create right panel with table and action buttons
     JPanel rightPanel_row3 = new JPanel();
-    rightPanel_row3.setLayout(new FlowLayout(FlowLayout.CENTER,1,20));
+    rightPanel_row3.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 20));
     rightPanel_row3.setBackground(Color.decode("#CDE8E5"));
     table = new JTable(new DefaultTableModel(
         new Object[]{"ID Sản Phẩm", "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán Ra", "Giá Nhập",
@@ -164,7 +173,7 @@ public class HomeView extends JFrame {
     scrollPane.setPreferredSize(new Dimension(1500, 600));
     rightPanel_row3.add(scrollPane);
     rightPanel.add(rightPanel_row3);
-    
+
     JPanel actionPanel = new JPanel();
     actionPanel.setBackground(Color.decode("#CDE8E5"));
     actionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -203,7 +212,8 @@ public class HomeView extends JFrame {
     label.setPreferredSize(size);
   }
 
-  private void addComponent(JPanel panel, Component component, GridBagConstraints gbc, int x, int y) {
+  private void addComponent(JPanel panel, Component component, GridBagConstraints gbc, int x,
+      int y) {
     gbc.gridx = x;
     gbc.gridy = y;
     panel.add(component, gbc);
@@ -290,4 +300,140 @@ public class HomeView extends JFrame {
   }
 
   // tets thu git thoi ma
+
+  public JButton getBtnExit() {
+    return btnExit;
+  }
+
+  public void setBtnExit(JButton btnExit) {
+    this.btnExit = btnExit;
+  }
+
+  public JLabel getLbMasanpham() {
+    return lbMasanpham;
+  }
+
+  public void setLbMasanpham(JLabel lbMasanpham) {
+    this.lbMasanpham = lbMasanpham;
+  }
+
+  public JLabel getLbTensanpham() {
+    return lbTensanpham;
+  }
+
+  public void setLbTensanpham(JLabel lbTensanpham) {
+    this.lbTensanpham = lbTensanpham;
+  }
+
+  public JLabel getLbGiaBan() {
+    return lbGiaBan;
+  }
+
+  public void setLbGiaBan(JLabel lbGiaBan) {
+    this.lbGiaBan = lbGiaBan;
+  }
+
+  public JLabel getLbGiaNhap() {
+    return lbGiaNhap;
+  }
+
+  public void setLbGiaNhap(JLabel lbGiaNhap) {
+    this.lbGiaNhap = lbGiaNhap;
+  }
+
+  public JLabel getLbMoTa() {
+    return lbMoTa;
+  }
+
+  public void setLbMoTa(JLabel lbMoTa) {
+    this.lbMoTa = lbMoTa;
+  }
+
+  public JLabel getLbThoiGianNhap() {
+    return lbThoiGianNhap;
+  }
+
+  public void setLbThoiGianNhap(JLabel lbThoiGianNhap) {
+    this.lbThoiGianNhap = lbThoiGianNhap;
+  }
+
+  public JLabel getLbTenDanhMuc() {
+    return lbTenDanhMuc;
+  }
+
+  public void setLbTenDanhMuc(JLabel lbTenDanhMuc) {
+    this.lbTenDanhMuc = lbTenDanhMuc;
+  }
+
+  public JLabel getLbTenNhaCungCap() {
+    return lbTenNhaCungCap;
+  }
+
+  public void setLbTenNhaCungCap(JLabel lbTenNhaCungCap) {
+    this.lbTenNhaCungCap = lbTenNhaCungCap;
+  }
+
+  public JTextField getTfMasanpham() {
+    return TfMasanpham;
+  }
+
+  public void setTfMasanpham(JTextField tfMasanpham) {
+    TfMasanpham = tfMasanpham;
+  }
+
+  public JTextField getTfTensanpham() {
+    return TfTensanpham;
+  }
+
+  public void setTfTensanpham(JTextField tfTensanpham) {
+    TfTensanpham = tfTensanpham;
+  }
+
+  public JTextField getTfGiaBan() {
+    return TfGiaBan;
+  }
+
+  public void setTfGiaBan(JTextField tfGiaBan) {
+    TfGiaBan = tfGiaBan;
+  }
+
+  public JTextField getTfGiaNhap() {
+    return TfGiaNhap;
+  }
+
+  public void setTfGiaNhap(JTextField tfGiaNhap) {
+    TfGiaNhap = tfGiaNhap;
+  }
+
+  public JTextField getTfMoTa() {
+    return TfMoTa;
+  }
+
+  public void setTfMoTa(JTextField tfMoTa) {
+    TfMoTa = tfMoTa;
+  }
+
+  public JTextField getTfThoiGianNhap() {
+    return TfThoiGianNhap;
+  }
+
+  public void setTfThoiGianNhap(JTextField tfThoiGianNhap) {
+    TfThoiGianNhap = tfThoiGianNhap;
+  }
+
+  public JComboBox<Item> getCbTenDanhMuc() {
+    return CbTenDanhMuc;
+  }
+
+  public void setCbTenDanhMuc(JComboBox<Item> cbTenDanhMuc) {
+    CbTenDanhMuc = cbTenDanhMuc;
+  }
+
+  public JComboBox<Item> getCbTenNhaCungCap() {
+    return CbTenNhaCungCap;
+  }
+
+  public void setCbTenNhaCungCap(JComboBox<Item> cbTenNhaCungCap) {
+    CbTenNhaCungCap = cbTenNhaCungCap;
+  }
 }

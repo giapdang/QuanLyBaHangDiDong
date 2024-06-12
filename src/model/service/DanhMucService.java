@@ -4,9 +4,11 @@ import database.Jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.entity.DanhMucSanPham;
+import model.response.Item;
 
 public class DanhMucService {
 
@@ -33,5 +35,21 @@ public class DanhMucService {
       e.printStackTrace();
     }
     return danhMucSanPhams;
+  }
+  public List<Item> getDanhMucList() {
+    List<Item> danhMucList = new ArrayList<>();
+    String query = "SELECT IDDanhMuc, TenDanhMuc FROM danhmucsanpham";
+
+    try (Connection connection = Jdbc.getJdbc();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query)) {
+
+      while (resultSet.next()) {
+        danhMucList.add(new Item(resultSet.getInt("IDDanhMuc"), resultSet.getString("TenDanhMuc")));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return danhMucList;
   }
 }
