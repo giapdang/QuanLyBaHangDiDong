@@ -16,6 +16,7 @@ public class HomeView extends JFrame {
   private JButton btnAdd;
   private JButton btnEdit;
   private JButton btnDelete;
+  private JButton btnExit;
   private JLabel lbMasanpham;
   private JLabel lbTensanpham;
   private JLabel lbGiaBan;
@@ -64,8 +65,17 @@ public class HomeView extends JFrame {
 
     // Create right panel
     JPanel rightPanel = new JPanel();
-    rightPanel.setLayout(new BorderLayout());
-
+    rightPanel.setLayout(new BoxLayout(rightPanel,BoxLayout.Y_AXIS));
+    JPanel rightPanel_row0=new JPanel();
+    rightPanel_row0.setLayout(new FlowLayout(FlowLayout.LEFT,1,30));
+    rightPanel_row0.setBackground(Color.decode("#CDE8E5"));
+    JPanel taokhoangcach=new JPanel();
+    taokhoangcach.setBackground(Color.decode("#CDE8E5"));
+    rightPanel_row0.add(taokhoangcach);
+    rightPanel.add(rightPanel_row0);
+    JPanel chua_rightPanel_row1=new JPanel();
+    chua_rightPanel_row1.setLayout(new FlowLayout(FlowLayout.LEFT, 23, 1));
+    chua_rightPanel_row1.setBackground(Color.decode("#CDE8E5"));
     JPanel rightPanel_row1 = new JPanel();
     rightPanel_row1.setBackground(Color.decode("#CDE8E5"));
     rightPanel_row1.setLayout(new GridBagLayout());
@@ -111,41 +121,50 @@ public class HomeView extends JFrame {
     addComponent(rightPanel_row1, TfMoTa, gbc, 1, 4);
     addComponent(rightPanel_row1, lbThoiGianNhap, gbc, 0, 5);
     addComponent(rightPanel_row1, TfThoiGianNhap, gbc, 1, 5);
-
+    JPanel taokhoangcach1=new JPanel();
+    taokhoangcach1.setBackground(Color.decode("#CDE8E5"));
+    chua_rightPanel_row1.add(taokhoangcach1);
+    chua_rightPanel_row1.add(rightPanel_row1);
+    rightPanel.add(chua_rightPanel_row1);    
+    
+    
+    JPanel rightPanel_row2=new JPanel();
+    rightPanel_row2.setLayout(new FlowLayout(FlowLayout.LEFT,23,1));
+    rightPanel_row2.setBackground(Color.decode("#CDE8E5"));
+    JPanel taokhoangcach2=new JPanel();
+    taokhoangcach2.setBackground(Color.decode("#CDE8E5"));
     JPanel G = new JPanel();
     G.setBackground(Color.decode("#CDE8E5"));
     String[] items_danhmuc = {"Tự", "Thêm", "Tên", "Các", "Danh", "Mục", "Nhé", "!"};
     CbTenDanhMuc = new JComboBox<>(items_danhmuc);
-    CbTenDanhMuc.setPreferredSize(new Dimension(100, CbTenDanhMuc.getPreferredSize().height));
-    String[] items_nhacungcap = {"Tự", "Thêm", "Tên", "Các", "Nhà", "Cung", "Cấp", "Đi", "Nhé", "!"};
-    CbTenNhaCungCap = new JComboBox<>(items_nhacungcap);
-    CbTenNhaCungCap.setPreferredSize(new Dimension(121, CbTenDanhMuc.getPreferredSize().height));
+    CbTenDanhMuc.setPreferredSize(new Dimension(200, CbTenDanhMuc.getPreferredSize().height));
     G.add(lbTenDanhMuc);
     G.add(CbTenDanhMuc);
-    G.add(lbTenNhaCungCap);
-    G.add(CbTenNhaCungCap);
-
-    gbc.gridx = 0;
-    gbc.gridy = 6;
-    gbc.gridwidth = 2;
-    rightPanel_row1.add(G, gbc);
-
-    rightPanel.add(rightPanel_row1, BorderLayout.NORTH);
+    JPanel H=new JPanel();
+    H.setBackground(Color.decode("#CDE8E5"));
+    String[] items_nhacungcap = {"Tự", "Thêm", "Tên", "Các", "Nhà", "Cung", "Cấp", "Đi", "Nhé", "!"};
+    CbTenNhaCungCap = new JComboBox<>(items_nhacungcap);
+    CbTenNhaCungCap.setPreferredSize(new Dimension(200, CbTenNhaCungCap.getPreferredSize().height));   
+    H.add(lbTenNhaCungCap);
+    H.add(CbTenNhaCungCap);
+    rightPanel_row2.add(taokhoangcach2);
+    rightPanel_row2.add(G);
+    rightPanel_row2.add(H);
+    rightPanel.add(rightPanel_row2);
 
     // Create right panel with table and action buttons
-    JPanel rightPanel_row2 = new JPanel();
-    rightPanel_row2.setBackground(Color.decode("#CDE8E5"));
-    rightPanel_row2.setLayout(new BorderLayout());
-
+    JPanel rightPanel_row3 = new JPanel();
+    rightPanel_row3.setLayout(new FlowLayout(FlowLayout.CENTER,1,20));
+    rightPanel_row3.setBackground(Color.decode("#CDE8E5"));
     table = new JTable(new DefaultTableModel(
         new Object[]{"ID Sản Phẩm", "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán Ra", "Giá Nhập",
             "Mô Tả", "Thời Gian Nhập", "Tên Danh Mục", "Tên Nhà Cung Cấp"}, 0
     ));
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setPreferredSize(new Dimension(1500, 600));
-    rightPanel_row2.add(scrollPane, BorderLayout.CENTER);
-    rightPanel.add(rightPanel_row2, BorderLayout.CENTER);
-
+    rightPanel_row3.add(scrollPane);
+    rightPanel.add(rightPanel_row3);
+    
     JPanel actionPanel = new JPanel();
     actionPanel.setBackground(Color.decode("#CDE8E5"));
     actionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -159,12 +178,14 @@ public class HomeView extends JFrame {
     btnDelete = new JButton("Xóa");
     btnDelete.setPreferredSize(new Dimension(100, 50));
     btnDelete.setFont(new Font("Arial", Font.BOLD, 20));
-
+    btnExit = new JButton("Thoát");
+    btnExit.setPreferredSize(new Dimension(100, 50));
+    btnExit.setFont(new Font("Arial", Font.BOLD, 20));
     actionPanel.add(btnAdd);
     actionPanel.add(btnEdit);
     actionPanel.add(btnDelete);
-
-    rightPanel.add(actionPanel, BorderLayout.SOUTH);
+    actionPanel.add(btnExit);
+    rightPanel.add(actionPanel);
 
     JSplitPane spmain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
     this.setContentPane(spmain);
