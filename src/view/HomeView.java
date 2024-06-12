@@ -23,6 +23,7 @@ public class HomeView extends JFrame {
   private JLabel lbGiaNhap;
   private JLabel lbMoTa;
   private JLabel lbThoiGianNhap;
+  private JLabel lbSoluong;
   private JLabel lbTenDanhMuc;
   private JLabel lbTenNhaCungCap;
   private JTextField TfMasanpham;
@@ -31,6 +32,7 @@ public class HomeView extends JFrame {
   private JTextField TfGiaNhap;
   private JTextField TfMoTa;
   private JTextField TfThoiGianNhap;
+  private JTextField TfSoluong;
   private JComboBox<String> CbTenDanhMuc;
   private JComboBox<String> CbTenNhaCungCap;
 
@@ -95,6 +97,8 @@ public class HomeView extends JFrame {
     TfMoTa = new JTextField(20);
     lbThoiGianNhap = new JLabel("Thời Gian Nhập:");
     TfThoiGianNhap = new JTextField(20);
+    lbSoluong =new JLabel("Số Lượng:");
+    TfSoluong= new JTextField(20);
     lbTenDanhMuc = new JLabel("Tên Danh Mục:");
     lbTenNhaCungCap = new JLabel("Tên Nhà Cung Cấp:");
 
@@ -121,6 +125,8 @@ public class HomeView extends JFrame {
     addComponent(rightPanel_row1, TfMoTa, gbc, 1, 4);
     addComponent(rightPanel_row1, lbThoiGianNhap, gbc, 0, 5);
     addComponent(rightPanel_row1, TfThoiGianNhap, gbc, 1, 5);
+    addComponent(rightPanel_row1, lbSoluong, gbc, 0, 6);
+    addComponent(rightPanel_row1, TfSoluong, gbc, 1, 6);    
     JPanel taokhoangcach1=new JPanel();
     taokhoangcach1.setBackground(Color.decode("#CDE8E5"));
     chua_rightPanel_row1.add(taokhoangcach1);
@@ -161,13 +167,13 @@ public class HomeView extends JFrame {
             "Mô Tả", "Thời Gian Nhập", "Tên Danh Mục", "Tên Nhà Cung Cấp"}, 0
     ));
     JScrollPane scrollPane = new JScrollPane(table);
-    scrollPane.setPreferredSize(new Dimension(1500, 600));
+    scrollPane.setPreferredSize(new Dimension(1500, 560));
     rightPanel_row3.add(scrollPane);
     rightPanel.add(rightPanel_row3);
     
     JPanel actionPanel = new JPanel();
     actionPanel.setBackground(Color.decode("#CDE8E5"));
-    actionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+    actionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
     btnAdd = new JButton("Thêm");
     btnAdd.setPreferredSize(new Dimension(100, 50));
