@@ -41,7 +41,7 @@ public class HomeView extends JFrame {
     HomeUi();
     this.setVisible(true);
   }
-
+//Test thu 
   public void HomeUi() {
     // Create left panel with buttons
     JPanel leftPanel = new JPanel();
