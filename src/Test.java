@@ -6,7 +6,7 @@ public class Test {
 
   public static void main(String[] args) {
     HomeView homeView = new HomeView();
-    SanPhamService sanPhamService = new SanPhamService();
+    SanPhamService sanPhamService = new SanPhamService(homeView);
     SanPhamController sanPhamController = new SanPhamController(sanPhamService, homeView);
   }
 }
