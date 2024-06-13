@@ -8,24 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import model.response.Item;
 
-public class NhaCungCapService {
+public class NguoiNhapService {
 
-  //lay id va ten nha cung cap
-  public List<Item> getAllTenNhaCungCap() {
-    List<Item> nhaCungCapList = new ArrayList<>();
-    String query = "SELECT IDNhaCungCap, TenNhaCungCap FROM nhacungcapsanpham";
+  //lay id va ten nguoi nhap
+  public List<Item> getDanhMucList() {
+    List<Item> nguoiNhapList = new ArrayList<>();
+    String query = "SELECT IDNguoiNhap, TenNguoiNhap FROM nguoinhap";
 
     try (Connection connection = Jdbc.getJdbc();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query)) {
 
       while (resultSet.next()) {
-        nhaCungCapList.add(new Item(resultSet.getInt("IDNhaCungCap"), resultSet.getString("TenNhaCungCap")));
+        nguoiNhapList.add(new Item(resultSet.getInt("IDNguoiNhap"), resultSet.getString("TenNguoiNhap")));
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return nhaCungCapList;
+    return nguoiNhapList;
   }
-
 }
