@@ -9,10 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import model.entity.DanhMucSanPham;
 import model.response.Item;
+import view.HomeView;
 
 public class DanhMucService {
 
+  private HomeView homeView;
+
+  public DanhMucService(HomeView homeView) {
+    this.homeView = homeView;
+  }
   private static final String SELECT_ALL_DANH_MUC = "select * from danhmucsanpham";
+
 
   //lay tat ca danh muc
   public List<DanhMucSanPham> getAllDanhMuc() {
@@ -63,6 +70,34 @@ public class DanhMucService {
     try (Connection connection = Jdbc.getJdbc();
         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
       preparedStatement.setInt(1, IDDanhMuc);
+      preparedStatement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  //method them danh muc
+  public void addDanhMuc(String TenDanhMuc, String MoTaDanhMuc) {
+    String query = "INSERT INTO danhmucsanpham(TenDanhMuc, MoTaDanhMuc) VALUES (?, ?)";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, homeView.getTfTenDanhmuc().getText());
+      preparedStatement.setString(2, homeView.getTfMotadanhmuc().getText());
+      preparedStatement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //method update danh muc
+  public void updateDanhMuc(int IDDanhMuc, String TenDanhMuc, String MoTaDanhMuc) {
+    String query = "UPDATE danhmucsanpham SET TenDanhMuc = ?, MoTaDanhMuc = ? WHERE IDDanhMuc = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, TenDanhMuc);
+      preparedStatement.setString(2, MoTaDanhMuc);
+      preparedStatement.setInt(3, IDDanhMuc);
       preparedStatement.executeUpdate();
     } catch (Exception e) {
       e.printStackTrace();
