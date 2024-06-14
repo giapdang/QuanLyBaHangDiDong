@@ -86,6 +86,12 @@ public class SanPhamController {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
+          if(homeView.getTfMasanpham().getText().isEmpty() || homeView.getTfTensanpham().getText().isEmpty()
+              || homeView.getTfGiaBan().getText().isEmpty() || homeView.getTfGiaNhap().getText().isEmpty()
+              || homeView.getTfMoTa().getText().isEmpty()){
+            JOptionPane.showMessageDialog(homeView, "Vui lòng nhập đầy đủ thông tin");
+            return;
+          }
           String MaSanPham = homeView.getTfMasanpham().getText();
           String TenSanPham = homeView.getTfTensanpham().getText();
           double GiaBanRa = Double.parseDouble(homeView.getTfGiaBan().getText());
