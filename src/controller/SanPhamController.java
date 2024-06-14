@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,6 +28,9 @@ public class SanPhamController {
     loadSanPham();
     deleteSanPham();
     addSanPham();
+    exit();
+    updateSanPham();
+    clickMouse();
   }
 
   public void loadSanPham() {
@@ -75,6 +80,7 @@ public class SanPhamController {
       }
     });
   }
+
   public void addSanPham() {
     homeView.getBtnAdd().addActionListener(new ActionListener() {
       @Override
@@ -92,12 +98,90 @@ public class SanPhamController {
           Item selectedNhaCungCap = (Item) homeView.getCbTenNhaCungCap().getSelectedItem();
           int IDNhaCungCap = selectedNhaCungCap.getId();
 
-          sanPhamService.them(MaSanPham, TenSanPham, GiaBanRa, GiaNhap, MoTa, IDDanhMuc, IDNhaCungCap);
+          sanPhamService.them(MaSanPham, TenSanPham, GiaBanRa, GiaNhap, MoTa, IDDanhMuc,
+              IDNhaCungCap);
           JOptionPane.showMessageDialog(homeView, "Thêm sản phẩm thành công");
           loadSanPham(); // Load lại bảng sản phẩm sau khi thêm
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(homeView, "Giá bán và giá nhập phải là số");
         }
+      }
+    });
+  }
+
+  //method update
+  public void updateSanPham() {
+    homeView.getBtnEdit().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        int row = homeView.getTable().getSelectedRow();
+        if (row == -1) {
+          JOptionPane.showMessageDialog(homeView, "Vui lòng chọn sản phẩm cần cập nhật");
+        } else {
+          int IDSanPham = (int) homeView.getTable().getValueAt(row, 0);
+          String MaSanPham = homeView.getTfMasanpham().getText();
+          String TenSanPham = homeView.getTfTensanpham().getText();
+          double GiaBanRa = Double.parseDouble(homeView.getTfGiaBan().getText());
+          double GiaNhap = Double.parseDouble(homeView.getTfGiaNhap().getText());
+          String MoTa = homeView.getTfMoTa().getText();
+
+          Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
+          int IDDanhMuc = selectedDanhMuc.getId();
+
+          Item selectedNhaCungCap = (Item) homeView.getCbTenNhaCungCap().getSelectedItem();
+          int IDNhaCungCap = selectedNhaCungCap.getId();
+
+          sanPhamService.update(IDSanPham, MaSanPham, TenSanPham, GiaBanRa, GiaNhap, MoTa,
+              IDDanhMuc, IDNhaCungCap);
+          JOptionPane.showMessageDialog(homeView, "Cập nhật sản phẩm thành công");
+          loadSanPham(); // Load lại bảng sản phẩm sau khi cập nhật
+        }
+      }
+    });
+  }
+
+  //method click mouse
+  public void clickMouse() {
+    homeView.getTable().addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        int row = homeView.getTable().getSelectedRow();
+        homeView.getTfMasanpham().setText(homeView.getTable().getValueAt(row, 1).toString());
+        homeView.getTfTensanpham().setText(homeView.getTable().getValueAt(row, 2).toString());
+        String giaBan = homeView.getTable().getValueAt(row, 3).toString().replace(".", "")
+            .replace("₫", "").trim();
+        homeView.getTfGiaBan().setText(giaBan);
+        String giaNhap = homeView.getTable().getValueAt(row, 4).toString().replace(".", "")
+            .replace("₫", "").trim();
+        homeView.getTfGiaNhap().setText(giaNhap);
+        homeView.getTfMoTa().setText(homeView.getTable().getValueAt(row, 5).toString());
+        homeView.getTfThoiGianNhap().setText(homeView.getTable().getValueAt(row, 6).toString());
+
+        String danhMuc = homeView.getTable().getValueAt(row, 7).toString();
+        for (int i = 0; i < homeView.getCbTenDanhMuc().getItemCount(); i++) {
+          if (homeView.getCbTenDanhMuc().getItemAt(i).toString().equals(danhMuc)) {
+            homeView.getCbTenDanhMuc().setSelectedIndex(i);
+            break;
+          }
+        }
+
+        String nhaCungCap = homeView.getTable().getValueAt(row, 8).toString();
+        for (int i = 0; i < homeView.getCbTenNhaCungCap().getItemCount(); i++) {
+          if (homeView.getCbTenNhaCungCap().getItemAt(i).toString().equals(nhaCungCap)) {
+            homeView.getCbTenNhaCungCap().setSelectedIndex(i);
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  //method thoat
+  public void exit() {
+    homeView.getBtnExit().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.exit(0);
       }
     });
   }

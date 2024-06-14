@@ -14,8 +14,10 @@ public class DanhMucService {
 
   private static final String SELECT_ALL_DANH_MUC = "select * from danhmucsanpham";
 
+  //lay tat ca danh muc
   public List<DanhMucSanPham> getAllDanhMuc() {
     List<DanhMucSanPham> danhMucSanPhams = new ArrayList<>();
+   
 
     try (Connection connection = Jdbc.getJdbc();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DANH_MUC)) {
@@ -25,7 +27,7 @@ public class DanhMucService {
       while (rs.next()) {
         int IDDanhMuc = rs.getInt("IDDanhMuc");
         String TenDanhMuc = rs.getString("TenDanhMuc");
-        String MoTa = rs.getString("MoTa");
+        String MoTa = rs.getString("MoTaDanhMuc");
 
         DanhMucSanPham danhMucSanPham = new DanhMucSanPham(IDDanhMuc, TenDanhMuc, MoTa);
         danhMucSanPhams.add(danhMucSanPham);
@@ -36,6 +38,8 @@ public class DanhMucService {
     }
     return danhMucSanPhams;
   }
+
+  //lay id va ten danh muc
   public List<Item> getDanhMucList() {
     List<Item> danhMucList = new ArrayList<>();
     String query = "SELECT IDDanhMuc, TenDanhMuc FROM danhmucsanpham";
@@ -51,5 +55,18 @@ public class DanhMucService {
       e.printStackTrace();
     }
     return danhMucList;
+  }
+
+  //xoa danh muc
+  public void deleteDanhMuc(int IDDanhMuc) {
+    String query = "DELETE FROM danhmucsanpham WHERE IDDanhMuc = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setInt(1, IDDanhMuc);
+      preparedStatement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

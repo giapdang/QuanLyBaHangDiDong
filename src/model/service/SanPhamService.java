@@ -4,6 +4,8 @@ import database.Jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,13 +108,15 @@ public class SanPhamService {
       // Thêm hàng vào bảng sanpham
       insertProductStatement = connection.prepareStatement(
           "INSERT INTO sanpham (MaSanPham, TenSanPham, GiaBanRa, GiaNhap, MoTa, ThoiGianNhap, IDDanhMuc, IDNhaCungCap) "
-              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
       insertProductStatement.setString(1, homeView.getTfMasanpham().getText());
       insertProductStatement.setString(2, homeView.getTfTensanpham().getText());
       insertProductStatement.setDouble(3, Double.parseDouble(homeView.getTfGiaBan().getText()));
       insertProductStatement.setDouble(4, Double.parseDouble(homeView.getTfGiaNhap().getText()));
       insertProductStatement.setString(5, homeView.getTfMoTa().getText());
-      insertProductStatement.setString(6, dateFormat.format(new Date()));
+
+      Date ThoiGianNhap = dateFormat.parse(homeView.getTfThoiGianNhap().getText());
+      insertProductStatement.setString(6, dateFormat.format(ThoiGianNhap));
 
       Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
       insertProductStatement.setInt(7, selectedDanhMuc.getId());
@@ -122,11 +126,23 @@ public class SanPhamService {
 
       insertProductStatement.executeUpdate();
 
+      // Lấy ID sản phẩm mới được tạo
+      ResultSet rs = insertProductStatement.getGeneratedKeys();
+      rs.next();
+      int IDSanPham = rs.getInt(1);
+
       // Thêm hàng vào bảng khohang
       insertStockStatement = connection.prepareStatement(
-          "INSERT INTO khohang (SoLuongTonKho, NgayNhapKho) VALUES (?,?)");
-      insertStockStatement.setInt(1, 1);
-      insertStockStatement.setString(2, dateFormat.format(new Date()));
+          "INSERT INTO khohang (IDSanPham,SoLuongTonKho, NgayNhapKho,IDNhaCungCap,IDNguoiNhap) VALUES (?,?,?,?,?)");
+      insertStockStatement.setInt(1, IDSanPham);
+      insertStockStatement.setInt(2, Integer.parseInt(homeView.getTfSoluong().getText()));
+      insertStockStatement.setString(3, dateFormat.format(ThoiGianNhap));
+      insertStockStatement.setInt(4, selectedNhaCungCap.getId());
+
+      // Lấy ID người nhập hàng
+      Item selectedNguoiNhap = (Item) homeView.getCbNguoiNhap().getSelectedItem();
+      insertStockStatement.setInt(5, selectedNguoiNhap.getId());
+
       insertStockStatement.executeUpdate();
 
       connection.commit(); // Commit giao dịch
@@ -134,4 +150,65 @@ public class SanPhamService {
       e.printStackTrace();
     }
   }
+
+  public void update(int IDSanPham, String MaSanPham, String TenSanPham, double GiaBanRa,
+      double GiaNhap, String MoTa, int IDDanhMuc, int IDNhaCungCap) {
+    Connection connection = null;
+    PreparedStatement updateProductStatement = null;
+    PreparedStatement updateStockStatement = null;
+
+    try {
+      connection = Jdbc.getJdbc();
+      connection.setAutoCommit(false); // Start transaction
+
+      // Update product in sanpham table
+      updateProductStatement = connection.prepareStatement(
+          "UPDATE sanpham SET MaSanPham = ?, TenSanPham = ?, GiaBanRa = ?, GiaNhap = ?, MoTa = ?, ThoiGianNhap = ?, IDDanhMuc = ?, IDNhaCungCap = ? WHERE IDSanPham = ?");
+      updateProductStatement.setString(1, homeView.getTfMasanpham().getText().trim());
+      updateProductStatement.setString(2, homeView.getTfTensanpham().getText().trim());
+      updateProductStatement.setDouble(3,
+          Double.parseDouble(homeView.getTfGiaBan().getText().trim()));
+      updateProductStatement.setDouble(4,
+          Double.parseDouble(homeView.getTfGiaNhap().getText().trim()));
+      updateProductStatement.setString(5, homeView.getTfMoTa().getText().trim());
+
+      Date ThoiGianNhap = dateFormat.parse(homeView.getTfThoiGianNhap().getText().trim());
+      updateProductStatement.setString(6, dateFormat.format(ThoiGianNhap));
+
+      Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
+      updateProductStatement.setInt(7, selectedDanhMuc.getId());
+
+      Item selectedNhaCungCap = (Item) homeView.getCbTenNhaCungCap().getSelectedItem();
+      updateProductStatement.setInt(8, selectedNhaCungCap.getId());
+      updateProductStatement.setInt(9, IDSanPham);
+
+      updateProductStatement.executeUpdate();
+
+      // Update stock in khohang table
+      updateStockStatement = connection.prepareStatement(
+          "UPDATE khohang SET SoLuongTonKho = ?, NgayNhapKho = ?, IDNhaCungCap = ?, IDNguoiNhap = ? WHERE IDSanPham = ?");
+      updateStockStatement.setInt(1, Integer.parseInt(homeView.getTfSoluong().getText().trim()));
+      updateStockStatement.setString(2, dateFormat.format(ThoiGianNhap));
+      updateStockStatement.setInt(3, selectedNhaCungCap.getId());
+
+      //lay id nguoi nhap
+      Item selectedNguoiNhap = (Item) homeView.getCbNguoiNhap().getSelectedItem();
+      updateStockStatement.setInt(4, selectedNguoiNhap.getId());
+      updateStockStatement.setInt(5, IDSanPham);
+
+      updateStockStatement.executeUpdate();
+
+      connection.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (connection != null) {
+        try {
+          connection.rollback();
+        } catch (SQLException rollbackException) {
+          rollbackException.printStackTrace();
+        }
+      }
+    }
+  }
+
 }
