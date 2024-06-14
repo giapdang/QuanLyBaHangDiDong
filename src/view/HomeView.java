@@ -293,7 +293,7 @@ public class HomeView extends JFrame {
     panel_row3.setBackground(Color.decode("#CDE8E5"));
     table = new JTable(new DefaultTableModel(
         new Object[]{"ID Sản Phẩm", "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán Ra", "Giá Nhập",
-            "Mô Tả", "Thời Gian Nhập", "Số Lượng", "Tên Danh Mục", "Tên Nhà Cung Cấp"}, 0));
+            "Mô Tả", "Thời Gian Nhập", "Tên Danh Mục", "Tên Nhà Cung Cấp"}, 0));
     JTableHeader header = table.getTableHeader();
     header.setFont(new Font("Tamoha", Font.BOLD, 14));
     JScrollPane scrollPane = new JScrollPane(table);
@@ -1460,5 +1460,46 @@ public class HomeView extends JFrame {
 
   public void setBtnExitnv(JButton btnExitnv) {
     this.btnExitnv = btnExitnv;
+  }
+
+  //method clear san pham
+  public void clearSanPham() {
+    TfMasanpham.setText("");
+    TfTensanpham.setText("");
+    TfGiaBan.setText("");
+    TfGiaNhap.setText("");
+    TfMoTa.setText("");
+    TfThoiGianNhap.setText("");
+    CbTenDanhMuc.setSelectedIndex(0);
+    CbTenNhaCungCap.setSelectedIndex(0);
+  }
+
+  //method clear danh muc
+  public void clearDanhMuc() {
+    TfTenDanhmuc.setText("");
+    TfMotadanhmuc.setText("");
+  }
+
+  //method clear nha cung cap
+  public void clearNhaCungCap() {
+    TfTenNhaCungCap1.setText("");
+    TfDiachi.setText("");
+    TfSodienthoai.setText("");
+  }
+
+  //method clear nhan vien
+  public void clearNhanVien() {
+    TfTenNhanVien.setText("");
+    TfEmailNhanVien.setText("");
+    TfmatkhauNhanVien.setText("");
+    TfSodienthoaiNhanVien.setText("");
+  }
+
+  //method clear khach hang
+  public void clearKhachHang() {
+    TfTenKhachHang.setText("");
+    TfDiachiKhachHang.setText("");
+    TfSodienthoaiKhachHang.setText("");
+    TfEmailKhachHang.setText("");
   }
 }

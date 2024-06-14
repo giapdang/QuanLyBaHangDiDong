@@ -1,8 +1,10 @@
 import controller.DanhMucController;
+import controller.KhachHangController;
 import controller.NguoiNhapController;
 import controller.NhaCungCapController;
 import controller.SanPhamController;
 import model.service.DanhMucService;
+import model.service.KhachHangService;
 import model.service.NguoiNhapService;
 import model.service.NhaCungCapService;
 import model.service.SanPhamService;
@@ -15,11 +17,13 @@ public class Test {
     SanPhamService sanPhamService = new SanPhamService(homeView);
     DanhMucService danhMucService = new DanhMucService(homeView);
     NhaCungCapService nhaCungCapService = new NhaCungCapService(homeView);
+    KhachHangService khachHangService = new KhachHangService(homeView);
     NguoiNhapService nguoiNhapService = new NguoiNhapService(homeView);
     SanPhamController sanPhamController = new SanPhamController(sanPhamService, homeView);
     DanhMucController danhMucController = new DanhMucController(homeView, danhMucService);
     NhaCungCapController nhaCungCapController = new NhaCungCapController(homeView,
         nhaCungCapService);
     NguoiNhapController nguoiNhapController = new NguoiNhapController(homeView, nguoiNhapService);
+    KhachHangController khachHangController = new KhachHangController(homeView, khachHangService);
   }
 }

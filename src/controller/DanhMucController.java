@@ -30,31 +30,28 @@ public class DanhMucController {
 
   //method all danh muc
   public void findAllDanhMuc() {
-    homeView.getBtnDanhMuc().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        List<DanhMucSanPham> danhMucSanPhamList = danhMucService.getAllDanhMuc();
-        DefaultTableModel model = (DefaultTableModel) homeView.getTable_danhmuc().getModel();
-        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+    List<DanhMucSanPham> danhMucSanPhams = danhMucService.getAllDanhMuc();
+    DefaultTableModel model = (DefaultTableModel) homeView.getTable_danhmuc().getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
 
-        for (DanhMucSanPham dm : danhMucSanPhamList) {
-          Object[] row = {
-              dm.getIDDanhMuc(),
-              dm.getTenDanhMuc(),
-              dm.getMoTaDanhMuc()
-          };
-          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
-        }
-      }
-    });
+    for (DanhMucSanPham dm : danhMucSanPhams) {
+      Object[] row = {
+          dm.getIDDanhMuc(),
+          dm.getTenDanhMuc(),
+          dm.getMoTaDanhMuc()
+      };
+      model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+    }
   }
+
   //method them
   public void addDanhMuc() {
     homeView.getBtnAdd1().addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
-          if(homeView.getTfTenDanhmuc().getText().isEmpty() || homeView.getTfMotadanhmuc().getText().isEmpty()){
+          if (homeView.getTfTenDanhmuc().getText().isEmpty() || homeView.getTfMotadanhmuc()
+              .getText().isEmpty()) {
             JOptionPane.showMessageDialog(homeView, "Vui lòng nhập đầy đủ thông tin");
             return;
           }
@@ -62,6 +59,7 @@ public class DanhMucController {
           String MoTaDanhMuc = homeView.getTfMotadanhmuc().getText();
           danhMucService.addDanhMuc(TenDanhMuc, MoTaDanhMuc);
           JOptionPane.showMessageDialog(homeView, "Thêm sản phẩm thành công");
+          homeView.clearDanhMuc();
           findAllDanhMuc();
           refreshDanhMucList();
         } catch (Exception e2) {
@@ -70,6 +68,7 @@ public class DanhMucController {
       }
     });
   }
+
   //method xoa
   public void deleteDanhMuc() {
     homeView.getBtnDelete1().addActionListener(new ActionListener() {
@@ -82,12 +81,14 @@ public class DanhMucController {
           int IDDanhMuc = (int) homeView.getTable_danhmuc().getValueAt(row, 0);
           danhMucService.deleteDanhMuc(IDDanhMuc);
           JOptionPane.showMessageDialog(homeView, "Xóa danh mục thành công");
+          homeView.clearDanhMuc();
           findAllDanhMuc();
           refreshDanhMucList();
         }
       }
     });
   }
+
   //method update
   public void updateDanhMuc() {
     homeView.getBtnEdit1().addActionListener(new ActionListener() {
@@ -102,22 +103,27 @@ public class DanhMucController {
           String MoTaDanhMuc = homeView.getTfMotadanhmuc().getText();
           danhMucService.updateDanhMuc(IDDanhMuc, TenDanhMuc, MoTaDanhMuc);
           JOptionPane.showMessageDialog(homeView, "Cập nhật danh mục thành công");
+          homeView.clearDanhMuc();
           findAllDanhMuc();
           refreshDanhMucList();
         }
       }
     });
   }
+
   //method click mouse
   public void clickMouse() {
     homeView.getTable_danhmuc().addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         int row = homeView.getTable_danhmuc().getSelectedRow();
-        homeView.getTfTenDanhmuc().setText(homeView.getTable_danhmuc().getValueAt(row, 1).toString());
-        homeView.getTfMotadanhmuc().setText(homeView.getTable_danhmuc().getValueAt(row, 2).toString());
+        homeView.getTfTenDanhmuc()
+            .setText(homeView.getTable_danhmuc().getValueAt(row, 1).toString());
+        homeView.getTfMotadanhmuc()
+            .setText(homeView.getTable_danhmuc().getValueAt(row, 2).toString());
       }
     });
   }
+
   //method thoat
   public void exit() {
     homeView.getBtnExit1().addActionListener(new ActionListener() {
@@ -127,6 +133,7 @@ public class DanhMucController {
       }
     });
   }
+
   public void refreshDanhMucList() {
     // Clear the JComboBox
     JComboBox<Item> CbTenDanhMuc = homeView.getCbTenDanhMuc();
