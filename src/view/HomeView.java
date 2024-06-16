@@ -137,9 +137,6 @@ public class HomeView extends JFrame {
   //Cac thuoc tinh dung trong muc Chi Tiet Don Hang
   // ID Chi tiet don hang
   private JLabel lbidchitietdonhang;
-  // ID Don Hang
-  private JLabel lbiddonhang_chitietdonhang;
-  private JTextField Tfiddonhang_chitietdonhang;
   private JLabel lbTensanphamchitietdonhang;
   private JTextField TfTensanphamchitietdonhang;
   private JLabel lbTenkhachhangchitietdonhang;
@@ -961,8 +958,6 @@ public class HomeView extends JFrame {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(5, 5, 5, 5);
-    lbiddonhang_chitietdonhang = new JLabel("ID Đơn Hàng:");
-    Tfiddonhang_chitietdonhang = new JTextField(20);
     lbTensanphamchitietdonhang = new JLabel("Tên Sản Phẩm:");
     TfTensanphamchitietdonhang = new JTextField(20);
     lbTenkhachhangchitietdonhang = new JLabel("Tên Khách Hàng:");
@@ -974,20 +969,17 @@ public class HomeView extends JFrame {
     int dodai = lbTenkhachhangchitietdonhang.getPreferredSize().width;
     Dimension labelSize = new Dimension(dodai,
         lbTenkhachhangchitietdonhang.getPreferredSize().height);
-    setLabelSize(lbiddonhang_chitietdonhang, labelSize);
     setLabelSize(lbTensanphamchitietdonhang, labelSize);
     setLabelSize(lbSoluongchitietdonhang, labelSize);
     setLabelSize(lbGiabanchitietdonhang, labelSize);
-    addComponent(subrow1_2, lbiddonhang_chitietdonhang, gbc, 0, 0);
-    addComponent(subrow1_2, Tfiddonhang_chitietdonhang, gbc, 1, 0);
-    addComponent(subrow1_2, lbTensanphamchitietdonhang, gbc, 0, 1);
-    addComponent(subrow1_2, TfTensanphamchitietdonhang, gbc, 1, 1);
-    addComponent(subrow1_2, lbTenkhachhangchitietdonhang, gbc, 0, 2);
-    addComponent(subrow1_2, TfTenkhachhangchitietdonhang, gbc, 1, 2);
-    addComponent(subrow1_2, lbSoluongchitietdonhang, gbc, 0, 3);
-    addComponent(subrow1_2, TfSoluongchitietdonhang, gbc, 1, 3);
-    addComponent(subrow1_2, lbGiabanchitietdonhang, gbc, 0, 4);
-    addComponent(subrow1_2, TfGiabanchitietdonhang, gbc, 1, 4);
+    addComponent(subrow1_2, lbTensanphamchitietdonhang, gbc, 0, 0);
+    addComponent(subrow1_2, TfTensanphamchitietdonhang, gbc, 1, 0);
+    addComponent(subrow1_2, lbTenkhachhangchitietdonhang, gbc, 0, 1);
+    addComponent(subrow1_2, TfTenkhachhangchitietdonhang, gbc, 1, 1);
+    addComponent(subrow1_2, lbSoluongchitietdonhang, gbc, 0, 2);
+    addComponent(subrow1_2, TfSoluongchitietdonhang, gbc, 1, 2);
+    addComponent(subrow1_2, lbGiabanchitietdonhang, gbc, 0, 3);
+    addComponent(subrow1_2, TfGiabanchitietdonhang, gbc, 1, 3);
     row_1.add(subrow1_2);
     panel.add(row_1);
     JPanel row_2 = new JPanel();
@@ -1567,23 +1559,7 @@ public class HomeView extends JFrame {
     public void setTable_khohang(JTable table_khohang) {
         this.table_khohang = table_khohang;
     }
-
-    public JLabel getLbiddonhang_chitietdonhang() {
-        return lbiddonhang_chitietdonhang;
-    }
-
-    public void setLbiddonhang_chitietdonhang(JLabel lbiddonhang_chitietdonhang) {
-        this.lbiddonhang_chitietdonhang = lbiddonhang_chitietdonhang;
-    }
-
-    public JTextField getTfiddonhang_chitietdonhang() {
-        return Tfiddonhang_chitietdonhang;
-    }
-
-    public void setTfiddonhang_chitietdonhang(JTextField Tfiddonhang_chitietdonhang) {
-        this.Tfiddonhang_chitietdonhang = Tfiddonhang_chitietdonhang;
-    }
-
+    
     public JLabel getLbTensanphamchitietdonhang() {
         return lbTensanphamchitietdonhang;
     }
