@@ -3,9 +3,11 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.entity.KhachHang;
+import model.response.Item;
 import model.service.KhachHangService;
 import view.HomeView;
 
@@ -23,6 +25,7 @@ public class KhachHangController {
     delete();
     exit();
     clickMouse();
+    refreshKhachHangList();
   }
 
   //method all thong tin khach hang
@@ -61,6 +64,7 @@ public class KhachHangController {
               homeView.getTfEmailKhachHang().getText());
           JOptionPane.showMessageDialog(homeView, "Thêm khách hàng thành công");
           homeView.clearKhachHang();
+          refreshKhachHangList();
           allKhachHang();
         } catch (Exception ex) {
           ex.printStackTrace();
@@ -83,6 +87,7 @@ public class KhachHangController {
           JOptionPane.showMessageDialog(homeView, "Xóa khách hàng thành công");
           homeView.clearKhachHang();
           allKhachHang();
+          refreshKhachHangList();
         }
       }
     });
@@ -107,6 +112,7 @@ public class KhachHangController {
             JOptionPane.showMessageDialog(homeView, "Sửa thông tin khách hàng thành công");
             homeView.clearKhachHang();
             homeView.clearKhachHang();
+            refreshKhachHangList();
             allKhachHang();
           } catch (Exception ex) {
             ex.printStackTrace();
@@ -138,4 +144,17 @@ public class KhachHangController {
       }
     });
   }
+  //method refresh khach hang
+  public void refreshKhachHangList() {
+    // Clear the JComboBox
+    JComboBox<Item> CbTenKhachHang = homeView.getCbtenKhachhangdonhang();
+    CbTenKhachHang.removeAllItems();
+    // Get the updated list of DanhMuc
+    List<Item> updatedKhachHangNames = khachHangService.getIDTenKhachHang();
+    // Repopulate the JComboBox
+    for (Item item : updatedKhachHangNames) {
+      CbTenKhachHang.addItem(item);
+    }
+  }
+
 }
