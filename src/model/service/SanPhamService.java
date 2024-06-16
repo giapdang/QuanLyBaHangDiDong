@@ -211,4 +211,39 @@ public class SanPhamService {
     }
   }
 
+  //method tim kiem san pham theo id
+  public SanPhamResponse findSanPhamById(int IDSanPham) {
+    SanPhamResponse sanPham = null;
+    String query =
+        "select sp.IDSanPham, sp.MaSanPham, sp.TenSanPham, sp.GiaBanRa, sp.GiaNhap, sp.MoTa, sp.ThoiGianNhap, "
+            + "sp.IDDanhMuc, dm.TenDanhMuc, sp.IDNhaCungCap, ncc.TenNhaCungCap "
+            + "from sanpham sp "
+            + "join danhmucsanpham dm on sp.IDDanhMuc = dm.IDDanhMuc "
+            + "join nhacungcapsanpham ncc on sp.IDNhaCungCap = ncc.IDNhaCungCap "
+            + "where sp.IDSanPham = ?";
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setInt(1, IDSanPham);
+      ResultSet rs = preparedStatement.executeQuery();
+      if (rs.next()) {
+        sanPham = new SanPhamResponse(
+            rs.getInt("IDSanPham"),
+            rs.getString("TenSanPham"),
+            rs.getString("MaSanPham"),
+            rs.getDouble("GiaBanRa"),
+            rs.getDouble("GiaNhap"),
+            rs.getString("MoTa"),
+            dateFormat.parse(rs.getString("ThoiGianNhap")),
+            rs.getInt("IDDanhMuc"),
+            rs.getInt("IDNhaCungCap"),
+            rs.getString("TenDanhMuc"),
+            rs.getString("TenNhaCungCap")
+
+        );
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sanPham;
+  }
 }

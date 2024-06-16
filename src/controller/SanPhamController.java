@@ -11,6 +11,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.response.Item;
+import model.response.ProductDetailsForm;
 import model.response.SanPhamResponse;
 import model.service.SanPhamService;
 import view.HomeView;
@@ -20,40 +21,45 @@ public class SanPhamController {
   private final SanPhamService sanPhamService;
   private final HomeView homeView;
 
+  private final KhoHangController khoHangController;
+
   private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-  public SanPhamController(SanPhamService sanPhamService, HomeView homeView) {
+  public SanPhamController(SanPhamService sanPhamService, HomeView homeView,
+      KhoHangController khoHangController) {
     this.sanPhamService = sanPhamService;
     this.homeView = homeView;
+    this.khoHangController = khoHangController;
     loadSanPham();
     deleteSanPham();
     addSanPham();
     exit();
     updateSanPham();
     clickMouse();
+    viewProductDetails();
   }
 
   //method load san pham
   public void loadSanPham() {
-      List<SanPhamResponse> sanPhamList = sanPhamService.findAllSanPham();
-      DefaultTableModel model = (DefaultTableModel) homeView.getTable().getModel();
-      model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+    List<SanPhamResponse> sanPhamList = sanPhamService.findAllSanPham();
+    DefaultTableModel model = (DefaultTableModel) homeView.getTable().getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
 
-      for (SanPhamResponse sp : sanPhamList) {
-        Object[] row = {
-            sp.getIDSanPham(),
-            sp.getMaSanPham(),
-            sp.getTenSanPham(),
-            NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(sp.getGiaBanRa()),
-            NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(sp.getGiaNhap()),
-            sp.getMoTa(),
-            dateFormat.format(sp.getThoiGianNhap()),
-            sp.getTenDanhMuc(),
-            sp.getTenNhaCungCap()
-        };
-        model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
-      }
+    for (SanPhamResponse sp : sanPhamList) {
+      Object[] row = {
+          sp.getIDSanPham(),
+          sp.getMaSanPham(),
+          sp.getTenSanPham(),
+          NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(sp.getGiaBanRa()),
+          NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(sp.getGiaNhap()),
+          sp.getMoTa(),
+          dateFormat.format(sp.getThoiGianNhap()),
+          sp.getTenDanhMuc(),
+          sp.getTenNhaCungCap()
+      };
+      model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
     }
+  }
 
   public void deleteSanPham() {
     homeView.getBtnDelete().addActionListener(new ActionListener() {
@@ -70,6 +76,7 @@ public class SanPhamController {
           if (confirm == JOptionPane.YES_OPTION) {
             sanPhamService.deleteById(IDSanPham);
             DefaultTableModel model = (DefaultTableModel) homeView.getTable().getModel();
+            khoHangController.loadKhoHang();
             model.removeRow(row);
           }
         }
@@ -82,9 +89,11 @@ public class SanPhamController {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
-          if(homeView.getTfMasanpham().getText().isEmpty() || homeView.getTfTensanpham().getText().isEmpty()
-              || homeView.getTfGiaBan().getText().isEmpty() || homeView.getTfGiaNhap().getText().isEmpty()
-              || homeView.getTfMoTa().getText().isEmpty()){
+          if (homeView.getTfMasanpham().getText().isEmpty() || homeView.getTfTensanpham().getText()
+              .isEmpty()
+              || homeView.getTfGiaBan().getText().isEmpty() || homeView.getTfGiaNhap().getText()
+              .isEmpty()
+              || homeView.getTfMoTa().getText().isEmpty()) {
             JOptionPane.showMessageDialog(homeView, "Vui lòng nhập đầy đủ thông tin");
             return;
           }
@@ -105,6 +114,7 @@ public class SanPhamController {
           JOptionPane.showMessageDialog(homeView, "Thêm sản phẩm thành công");
           homeView.clearSanPham();
           loadSanPham(); // Load lại bảng sản phẩm sau khi thêm
+          khoHangController.loadKhoHang();
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(homeView, "Giá bán và giá nhập phải là số");
         }
@@ -139,6 +149,7 @@ public class SanPhamController {
           JOptionPane.showMessageDialog(homeView, "Cập nhật sản phẩm thành công");
           homeView.clearSanPham();
           loadSanPham(); // Load lại bảng sản phẩm sau khi cập nhật
+          khoHangController.loadKhoHang();
         }
       }
     });
@@ -189,4 +200,37 @@ public class SanPhamController {
       }
     });
   }
+
+  //method hiển thị chi tiết sản phẩm khi click vào sản phẩm trong bảng
+  public void viewProductDetails() {
+    homeView.getTable().addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        int row = homeView.getTable().getSelectedRow();
+        int IDSanPham = (int) homeView.getTable().getValueAt(row, 0);
+
+        // Lấy thông tin chi tiết sản phẩm từ cơ sở dữ liệu
+        SanPhamResponse sanPham = sanPhamService.findSanPhamById(IDSanPham);
+
+        // Đặt thông tin sản phẩm vào form chi tiết sản phẩm
+        ProductDetailsForm productDetailsForm = new ProductDetailsForm();
+        productDetailsForm.getTfIDSanPham().setText(String.valueOf(sanPham.getIDSanPham()));
+        productDetailsForm.getTfTenSanPham().setText(sanPham.getTenSanPham());
+        productDetailsForm.getTfGiaBanRa().setText(
+            NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(sanPham.getGiaBanRa()));
+        productDetailsForm.getTfGiaNhap().setText(
+            NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(sanPham.getGiaNhap()));
+        productDetailsForm.getTfMoTa().setText(sanPham.getMoTa());
+        productDetailsForm.getTfThoiGianNhap()
+            .setText(dateFormat.format(sanPham.getThoiGianNhap()));
+        productDetailsForm.getTfTenDanhMuc().setText(sanPham.getTenDanhMuc());
+        productDetailsForm.getTfTenNhaCungCap().setText(sanPham.getTenNhaCungCap());
+
+        // Hiển thị form chi tiết sản phẩm
+        productDetailsForm.setVisible(true);
+      }
+    });
+  }
+  //method refresh
+
 }

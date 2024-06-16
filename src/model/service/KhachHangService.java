@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.entity.KhachHang;
+import model.response.Item;
 import view.HomeView;
 
 public class KhachHangService {
@@ -16,6 +17,23 @@ public class KhachHangService {
 
   public KhachHangService(HomeView homeView) {
     this.homeView = homeView;
+  }
+
+  //method lay id va ten khach hang
+  public List<Item> getIDTenKhachHang() {
+    List<Item> khachHangList = new ArrayList<>();
+    String query = "SELECT IDKhachHang, TenKhachHang FROM khachhang";
+    try (Connection connection = Jdbc.getJdbc();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query)) {
+      while (resultSet.next()) {
+        khachHangList.add(
+            new Item(resultSet.getInt("IDKhachHang"), resultSet.getString("TenKhachHang")));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return khachHangList;
   }
 
   //method findAll khach hang
@@ -72,6 +90,7 @@ public class KhachHangService {
       e.printStackTrace();
     }
   }
+
   //method xoa khach hang
   public void deleteKhachHang(int id) {
     String query = "DELETE FROM khachhang WHERE idkhachhang = ?";
