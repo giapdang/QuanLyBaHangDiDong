@@ -246,4 +246,38 @@ public class SanPhamService {
     }
     return sanPham;
   }
+  //method hien thi ten vaf id san pham
+  public List<Item> getAllName() {
+    List<Item> SanPhamNames = new ArrayList<>();
+    String query = "SELECT IDSanPham,TenSanPham FROM sanpham";
+
+    try (Connection connection = Jdbc.getJdbc();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query)) {
+
+      while (resultSet.next()) {
+        SanPhamNames.add(new Item(resultSet.getInt("IDSanPham"), resultSet.getString("TenSanPham")));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return SanPhamNames;
+  }
+  //method lay id va gia ban ra
+  public List<Item> getIDGiaBanRa() {
+    List<Item> SanPhamList = new ArrayList<>();
+    String query = "SELECT IDSanPham, GiaBanRa FROM sanpham";
+
+    try (Connection connection = Jdbc.getJdbc();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query)) {
+
+      while (resultSet.next()) {
+        SanPhamList.add(new Item(resultSet.getInt("IDSanPham"), resultSet.getString("GiaBanRa")));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return SanPhamList;
+  }
 }

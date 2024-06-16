@@ -7,10 +7,17 @@ import model.response.Item;
 import model.service.DanhMucService;
 import java.util.List;
 import javax.swing.table.JTableHeader;
+import model.service.DonHangService;
 import model.service.KhachHangService;
+
+//import model.service.NguoiNhapService;
+import model.service.NguoiNhapService;
+
+
 import model.service.NguoiNhapService;
 
 import model.service.NhaCungCapService;
+import model.service.SanPhamService;
 
 public class HomeView extends JFrame {
 
@@ -117,12 +124,15 @@ public class HomeView extends JFrame {
   private JButton btnAddnv, btnEditnv, btnDeletenv, btnExitnv;
 
   //Cac thuoc tinh dung trong muc Don Hang
-  private JLabel lbNgaytaodonhang;
-  private JTextField TfNgaytaodonhang;
-  private JLabel lbThanhtien;
-  private JTextField TfThanhtien;
+
   private JLabel lbTrangthaidonhang;
-  private JTextField TfTrangthaidonhang;
+  private JComboBox<Item> CbTrangthaidonhang;
+  private JLabel lbTensanphamdonhang;
+  private JComboBox<Item> CbTensanphamdonhang;
+  private JLabel lbSoluongdonhang;
+  private JTextField TfSoluongdonhang;
+  private JLabel lbGiaBandonhang;
+  private JComboBox<Item> CbGiaBandonhang;
   private JLabel lbtenKhachhangdonhang;
   private JComboBox<Item> CbtenKhachhangdonhang;
   private JTable table_donhang;
@@ -430,9 +440,7 @@ public class HomeView extends JFrame {
     row_2.setBackground(Color.decode("#CDE8E5"));
     table_hoadon = new JTable(new DefaultTableModel(
         new Object[]{"ID Hoá Đơn", "Tên Khách Hàng", "Địa Chỉ", "Email", "Số Điện Thoại",
-            "Ngày Tạo Đơn Hàng", "ID Sản Phẩm", "Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Bán",
-            "Số Lượng", "Tổng Tiền Đơn Hàng",
-            "Tổng Tiền Thanh Toán", "Ngày Thanh Toán", "Trạng Thái Đơn Hàng"}, 0
+            "Sản Phẩm Chi Tiết", "Tổng Tiền Hóa Đơn", "Ngày Thành Toán"}, 0
     ));
 //        JTableHeader header = table_hoadon.getTableHeader();
 //        header.setFont(new Font("Tamoha", Font.BOLD, 14));
@@ -824,37 +832,23 @@ public class HomeView extends JFrame {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(5, 5, 5, 5);
-    lbNgaytaodonhang = new JLabel("Ngày Tạo Đơn Hàng:");
-    TfNgaytaodonhang = new JTextField(20);
-    lbThanhtien = new JLabel("Thành Tiền:");
-    TfThanhtien = new JTextField(20);
     lbTrangthaidonhang = new JLabel("Trạng Thái Đơn Hàng:");
-    TfTrangthaidonhang = new JTextField(20);
+    lbTensanphamdonhang = new JLabel("Sản Phẩm:");
     lbtenKhachhangdonhang = new JLabel("Tên Khách Hàng:");
+    lbSoluongdonhang = new JLabel("Số Lượng:");
+    TfSoluongdonhang = new JTextField(20);
+    lbGiaBandonhang = new JLabel("Giá Bán:");
 
-    int dodai = lbTrangthaidonhang.getPreferredSize().width;
-    Dimension labelSize = new Dimension(dodai, lbTenNhaCungCap.getPreferredSize().height);
-    setLabelSize(lbNgaytaodonhang, labelSize);
-    setLabelSize(lbThanhtien, labelSize);
-    setLabelSize(lbTrangthaidonhang, labelSize);
-    setLabelSize(lbtenKhachhangdonhang, labelSize);
+    String trangthai[] = {"Chưa Thanh Toán", "Đã Thanh Toán"};
+    CbTrangthaidonhang = new JComboBox(trangthai);
+    CbTrangthaidonhang.setPreferredSize(
+        new Dimension(200, CbTrangthaidonhang.getPreferredSize().height));
 
-    addComponent(subrow1_2, lbNgaytaodonhang, gbc, 0, 0);
-    addComponent(subrow1_2, TfNgaytaodonhang, gbc, 1, 0);
-    addComponent(subrow1_2, lbThanhtien, gbc, 0, 1);
-    addComponent(subrow1_2, TfThanhtien, gbc, 1, 1);
-    addComponent(subrow1_2, lbTrangthaidonhang, gbc, 0, 2);
-    addComponent(subrow1_2, TfTrangthaidonhang, gbc, 1, 2);
-
-    row_1.add(subrow1_2);
-    panel.add(row_1);
-    JPanel row2 = new JPanel();
-    row2.setLayout(new FlowLayout(FlowLayout.LEFT, 18, 1));
-    row2.setBackground(Color.decode("#CDE8E5"));
-    JPanel padding_1 = new JPanel();
-    padding_1.setBackground(Color.decode("#CDE8E5"));
-    JPanel H = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 1));
-    H.setBackground(Color.decode("#CDE8E5"));
+    SanPhamService sanPhamService = new SanPhamService(null);
+    List<Item> sanPhamNames = sanPhamService.getAllName();
+    CbTensanphamdonhang = new JComboBox<>(sanPhamNames.toArray(new Item[1]));
+    CbTensanphamdonhang.setPreferredSize(
+        new Dimension(200, CbTensanphamdonhang.getPreferredSize().height));
 
     KhachHangService khachhangService = new KhachHangService(null);
     List<Item> khachhangNames = khachhangService.getIDTenKhachHang();
@@ -862,14 +856,34 @@ public class HomeView extends JFrame {
     CbtenKhachhangdonhang.setPreferredSize(
         new Dimension(200, CbtenKhachhangdonhang.getPreferredSize().height));
 
-    H.add(lbtenKhachhangdonhang);
-    H.add(CbtenKhachhangdonhang);
-    row2.add(padding_1);
-    row2.add(H);
-    panel.add(row2);
-    JPanel row_3 = new JPanel();
-    row_3.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
-    row_3.setBackground(Color.decode("#CDE8E5"));
+    SanPhamService sanPhamService1 = new SanPhamService(null);
+    List<Item> sanPhamNames1 = sanPhamService1.getIDGiaBanRa();
+    CbGiaBandonhang = new JComboBox<>(sanPhamNames1.toArray(new Item[3]));
+    CbGiaBandonhang.setPreferredSize(new Dimension(200, CbGiaBandonhang.getPreferredSize().height));
+
+    int dodai = lbTrangthaidonhang.getPreferredSize().width;
+    Dimension labelSize = new Dimension(dodai, lbTrangthaidonhang.getPreferredSize().height);
+    setLabelSize(lbTrangthaidonhang, labelSize);
+    setLabelSize(lbTensanphamdonhang, labelSize);
+    setLabelSize(lbSoluongdonhang, labelSize);
+    setLabelSize(lbGiaBandonhang, labelSize);
+    setLabelSize(lbtenKhachhangdonhang, labelSize);
+    addComponent(subrow1_2, lbTrangthaidonhang, gbc, 0, 0);
+    addComponent(subrow1_2, CbTrangthaidonhang, gbc, 1, 0);
+    addComponent(subrow1_2, lbTensanphamdonhang, gbc, 0, 1);
+    addComponent(subrow1_2, CbTensanphamdonhang, gbc, 1, 1);
+    addComponent(subrow1_2, lbSoluongdonhang, gbc, 0, 2);
+    addComponent(subrow1_2, TfSoluongdonhang, gbc, 1, 2);
+    addComponent(subrow1_2, lbGiaBandonhang, gbc, 0, 3);
+    addComponent(subrow1_2, CbGiaBandonhang, gbc, 1, 3);
+    addComponent(subrow1_2, lbtenKhachhangdonhang, gbc, 0, 4);
+    addComponent(subrow1_2, CbtenKhachhangdonhang, gbc, 1, 4);
+    row_1.add(subrow1_2);
+    panel.add(row_1);
+
+    JPanel row_2 = new JPanel();
+    row_2.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+    row_2.setBackground(Color.decode("#CDE8E5"));
     table_donhang = new JTable(new DefaultTableModel(
         new Object[]{"ID Đơn Hàng", "Ngày Tạo Đơn Hàng", "Thành Tiền", "Trạng Thái Đơn Hàng",
             "Tên Khách Hàng"}, 0
@@ -882,11 +896,11 @@ public class HomeView extends JFrame {
 
     // Tính toán kích thước dựa trên DPI
     scrollPane.setPreferredSize(new Dimension(1100, 600));
-    row_3.add(scrollPane);
-    panel.add(row_3);
-    JPanel row_4 = new JPanel();
-    row_4.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 20));
-    row_4.setBackground(Color.decode("#CDE8E5"));
+    row_2.add(scrollPane);
+    panel.add(row_2);
+    JPanel row_3 = new JPanel();
+    row_3.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 20));
+    row_3.setBackground(Color.decode("#CDE8E5"));
     btnAdddonhang = new JButton("Thêm");
     btnAdddonhang.setPreferredSize(new Dimension(100, 50));
     btnAdddonhang.setFont(new Font("Arial", Font.BOLD, 20));
@@ -899,11 +913,11 @@ public class HomeView extends JFrame {
     btnExitdonhang = new JButton("Thoát");
     btnExitdonhang.setPreferredSize(new Dimension(100, 50));
     btnExitdonhang.setFont(new Font("Arial", Font.BOLD, 20));
-    row_4.add(btnAdddonhang);
-    row_4.add(btnEditdonhang);
-    row_4.add(btnDeletedonhang);
-    row_4.add(btnExitdonhang);
-    panel.add(row_4);
+    row_3.add(btnAdddonhang);
+    row_3.add(btnEditdonhang);
+    row_3.add(btnDeletedonhang);
+    row_3.add(btnExitdonhang);
+    panel.add(row_3);
     return panel;
   }
 
@@ -1212,154 +1226,6 @@ public class HomeView extends JFrame {
     return btnExit;
   }
 
-  public void setBtnExit(JButton btnExit) {
-    this.btnExit = btnExit;
-  }
-
-  public JLabel getLbMasanpham() {
-    return lbMasanpham;
-  }
-
-  public JButton getBtnExitnv() {
-    return btnExitnv;
-  }
-
-  public void setBtnExitnv(JButton btnExitnv) {
-    this.btnExitnv = btnExitnv;
-  }
-
-  //method clear san pham
-  public void clearSanPham() {
-    TfMasanpham.setText("");
-    TfTensanpham.setText("");
-    TfGiaBan.setText("");
-    TfGiaNhap.setText("");
-    TfMoTa.setText("");
-    TfThoiGianNhap.setText("");
-    CbTenDanhMuc.setSelectedIndex(0);
-    CbTenNhaCungCap.setSelectedIndex(0);
-  }
-
-  //method clear danh muc
-  public void clearDanhMuc() {
-    TfTenDanhmuc.setText("");
-    TfMotadanhmuc.setText("");
-  }
-
-  //method clear nha cung cap
-  public void clearNhaCungCap() {
-    TfTenNhaCungCap1.setText("");
-    TfDiachi.setText("");
-    TfSodienthoai.setText("");
-  }
-
-  //method clear nhan vien
-  public void clearNhanVien() {
-    TfTenNhanVien.setText("");
-    TfEmailNhanVien.setText("");
-    TfmatkhauNhanVien.setText("");
-    TfSodienthoaiNhanVien.setText("");
-  }
-
-  //method clear khach hang
-  public void clearKhachHang() {
-    TfTenKhachHang.setText("");
-    TfDiachiKhachHang.setText("");
-    TfSodienthoaiKhachHang.setText("");
-    TfEmailKhachHang.setText("");
-  }
-
-  public JButton getBtnDonHang() {
-    return btnDonHang;
-  }
-
-  public void setBtnDonHang(JButton btnDonHang) {
-    this.btnDonHang = btnDonHang;
-  }
-
-  public JButton getBtnAddhoadon() {
-    return btnAddhoadon;
-  }
-
-  public void setBtnAddhoadon(JButton btnAddhoadon) {
-    this.btnAddhoadon = btnAddhoadon;
-  }
-
-  public JButton getBtnEdithoadon() {
-    return btnEdithoadon;
-  }
-
-  public void setBtnEdithoadon(JButton btnEdithoadon) {
-    this.btnEdithoadon = btnEdithoadon;
-  }
-
-  public JButton getBtnDeletehoadon() {
-    return btnDeletehoadon;
-  }
-
-  public void setBtnDeletehoadon(JButton btnDeletehoadon) {
-    this.btnDeletehoadon = btnDeletehoadon;
-  }
-
-  public JButton getBtnExithoadon() {
-    return btnExithoadon;
-  }
-
-  public void setBtnExithoadon(JButton btnExithoadon) {
-    this.btnExithoadon = btnExithoadon;
-  }
-
-  public JButton getBtnAdd1() {
-    return btnAdd1;
-  }
-
-  public void setBtnAdd1(JButton btnAdd1) {
-    this.btnAdd1 = btnAdd1;
-  }
-
-  public JButton getBtnEdit1() {
-    return btnEdit1;
-  }
-
-  public void setBtnEdit1(JButton btnEdit1) {
-    this.btnEdit1 = btnEdit1;
-  }
-
-  public JButton getBtnDelete1() {
-    return btnDelete1;
-  }
-
-  public void setBtnDelete1(JButton btnDelete1) {
-    this.btnDelete1 = btnDelete1;
-  }
-
-  public JButton getBtnExit1() {
-    return btnExit1;
-  }
-
-  public void setBtnExit1(JButton btnExit1) {
-    this.btnExit1 = btnExit1;
-  }
-
-  public JButton getBtnAddncc() {
-    return btnAddncc;
-  }
-
-  public void setBtnAddncc(JButton btnAddncc) {
-    this.btnAddncc = btnAddncc;
-  }
-
-  public JButton getBtnEditncc() {
-    return btnEditncc;
-  }
-
-  public void setBtnEditncc(JButton btnEditncc) {
-    this.btnEditncc = btnEditncc;
-  }
-
-  public JButton getBtnDeletencc() {
-    return btnDeletencc;
-  }
 
   public void setBtnDeletencc(JButton btnDeletencc) {
     this.btnDeletencc = btnDeletencc;
@@ -1368,6 +1234,7 @@ public class HomeView extends JFrame {
   public JButton getBtnExitncc() {
     return btnExitncc;
   }
+
 
   public void setBtnExitncc(JButton btnExitncc) {
     this.btnExitncc = btnExitncc;
@@ -1645,29 +1512,6 @@ public class HomeView extends JFrame {
     this.TfSodienthoaiNhanVien = TfSodienthoaiNhanVien;
   }
 
-  public JTextField getTfNgaytaodonhang() {
-    return TfNgaytaodonhang;
-  }
-
-  public void setTfNgaytaodonhang(JTextField TfNgaytaodonhang) {
-    this.TfNgaytaodonhang = TfNgaytaodonhang;
-  }
-
-  public JTextField getTfThanhtien() {
-    return TfThanhtien;
-  }
-
-  public void setTfThanhtien(JTextField TfThanhtien) {
-    this.TfThanhtien = TfThanhtien;
-  }
-
-  public JTextField getTfTrangthaidonhang() {
-    return TfTrangthaidonhang;
-  }
-
-  public void setTfTrangthaidonhang(JTextField TfTrangthaidonhang) {
-    this.TfTrangthaidonhang = TfTrangthaidonhang;
-  }
 
   public JLabel getLbtenKhachhangdonhang() {
     return lbtenKhachhangdonhang;
@@ -1869,13 +1713,6 @@ public class HomeView extends JFrame {
     this.lbSodienthoaiNhanVien = lbSodienthoaiNhanVien;
   }
 
-  public JLabel getLbNgaytaodonhang() {
-    return lbNgaytaodonhang;
-  }
-
-  public void setLbNgaytaodonhang(JLabel lbNgaytaodonhang) {
-    this.lbNgaytaodonhang = lbNgaytaodonhang;
-  }
 
   public JLabel getLbTensanphamkhohang() {
     return lbTensanphamkhohang;
@@ -2052,6 +1889,204 @@ public class HomeView extends JFrame {
   public void setTable_chitietdonhang(JTable table_chitietdonhang) {
     this.table_chitietdonhang = table_chitietdonhang;
   }
+
+  public JButton getBtnExitnv() {
+    return btnExitnv;
+  }
+
+  public JComboBox<Item> getCbTrangthaidonhang() {
+    return CbTrangthaidonhang;
+  }
+
+  public void setCbTrangthaidonhang(JComboBox<Item> CbTrangthaidonhang) {
+    this.CbTrangthaidonhang = CbTrangthaidonhang;
+  }
+
+  public JLabel getLbTensanphamdonhang() {
+    return lbTensanphamdonhang;
+  }
+
+  public void setLbTensanphamdonhang(JLabel lbTensanphamdonhang) {
+    this.lbTensanphamdonhang = lbTensanphamdonhang;
+  }
+
+  public JComboBox<Item> getCbTensanphamdonhang() {
+    return CbTensanphamdonhang;
+  }
+
+  public void setCbTensanphamdonhang(JComboBox<Item> CbTensanphamdonhang) {
+    this.CbTensanphamdonhang = CbTensanphamdonhang;
+  }
+
+  public JLabel getLbSoluongdonhang() {
+    return lbSoluongdonhang;
+  }
+
+  public void setLbSoluongdonhang(JLabel lbSoluongdonhang) {
+    this.lbSoluongdonhang = lbSoluongdonhang;
+  }
+
+  public JTextField getTfSoluongdonhang() {
+    return TfSoluongdonhang;
+  }
+
+  public void setTfSoluongdonhang(JTextField TfSoluongdonhang) {
+    this.TfSoluongdonhang = TfSoluongdonhang;
+  }
+
+  public JLabel getLbGiaBandonhang() {
+    return lbGiaBandonhang;
+  }
+
+  public void setLbGiaBandonhang(JLabel lbGiaBandonhang) {
+    this.lbGiaBandonhang = lbGiaBandonhang;
+  }
+
+  public JComboBox<Item> getCbGiaBandonhang() {
+    return CbGiaBandonhang;
+  }
+
+  public void setCbGiaBandonhang(JComboBox<Item> CbGiaBandonhang) {
+    this.CbGiaBandonhang = CbGiaBandonhang;
+  }
+
+  public void setBtnExitnv(JButton btnExitnv) {
+    this.btnExitnv = btnExitnv;
+  }
+
+  //method clear san pham
+  public void clearSanPham() {
+    TfMasanpham.setText("");
+    TfTensanpham.setText("");
+    TfGiaBan.setText("");
+    TfGiaNhap.setText("");
+    TfMoTa.setText("");
+    TfThoiGianNhap.setText("");
+    CbTenDanhMuc.setSelectedIndex(0);
+    CbTenNhaCungCap.setSelectedIndex(0);
+  }
+
+  //method clear danh muc
+  public void clearDanhMuc() {
+    TfTenDanhmuc.setText("");
+    TfMotadanhmuc.setText("");
+  }
+
+  //method clear nha cung cap
+  public void clearNhaCungCap() {
+    TfTenNhaCungCap1.setText("");
+    TfDiachi.setText("");
+    TfSodienthoai.setText("");
+  }
+
+  //method clear nhan vien
+  public void clearNhanVien() {
+    TfTenNhanVien.setText("");
+    TfEmailNhanVien.setText("");
+    TfmatkhauNhanVien.setText("");
+    TfSodienthoaiNhanVien.setText("");
+  }
+
+  //method clear khach hang
+  public void clearKhachHang() {
+    TfTenKhachHang.setText("");
+    TfDiachiKhachHang.setText("");
+    TfSodienthoaiKhachHang.setText("");
+    TfEmailKhachHang.setText("");
+  }
+
+  public JButton getBtnDonHang() {
+    return btnDonHang;
+  }
+
+  public void setBtnDonHang(JButton btnDonHang) {
+    this.btnDonHang = btnDonHang;
+  }
+
+  public JButton getBtnAddhoadon() {
+    return btnAddhoadon;
+  }
+
+  public void setBtnAddhoadon(JButton btnAddhoadon) {
+    this.btnAddhoadon = btnAddhoadon;
+  }
+
+  public JButton getBtnEdithoadon() {
+    return btnEdithoadon;
+  }
+
+  public void setBtnEdithoadon(JButton btnEdithoadon) {
+    this.btnEdithoadon = btnEdithoadon;
+  }
+
+  public JButton getBtnDeletehoadon() {
+    return btnDeletehoadon;
+  }
+
+  public void setBtnDeletehoadon(JButton btnDeletehoadon) {
+    this.btnDeletehoadon = btnDeletehoadon;
+  }
+
+  public JButton getBtnExithoadon() {
+    return btnExithoadon;
+  }
+
+  public void setBtnExithoadon(JButton btnExithoadon) {
+    this.btnExithoadon = btnExithoadon;
+  }
+
+  public JButton getBtnAdd1() {
+    return btnAdd1;
+  }
+
+  public void setBtnAdd1(JButton btnAdd1) {
+    this.btnAdd1 = btnAdd1;
+  }
+
+  public JButton getBtnEdit1() {
+    return btnEdit1;
+  }
+
+  public void setBtnEdit1(JButton btnEdit1) {
+    this.btnEdit1 = btnEdit1;
+  }
+
+  public JButton getBtnDelete1() {
+    return btnDelete1;
+  }
+
+  public void setBtnDelete1(JButton btnDelete1) {
+    this.btnDelete1 = btnDelete1;
+  }
+
+  public JButton getBtnExit1() {
+    return btnExit1;
+  }
+
+  public void setBtnExit1(JButton btnExit1) {
+    this.btnExit1 = btnExit1;
+  }
+
+  public JButton getBtnAddncc() {
+    return btnAddncc;
+  }
+
+  public void setBtnAddncc(JButton btnAddncc) {
+    this.btnAddncc = btnAddncc;
+  }
+
+  public JButton getBtnEditncc() {
+    return btnEditncc;
+  }
+
+  public void setBtnEditncc(JButton btnEditncc) {
+    this.btnEditncc = btnEditncc;
+  }
+
+  public JButton getBtnDeletencc() {
+    return btnDeletencc;
+  }
+
 
   public JPanel getRightPanel() {
     return rightPanel;
@@ -2289,13 +2324,6 @@ public class HomeView extends JFrame {
     this.lbTenNhanVien = lbTenNhanVien;
   }
 
-  public JLabel getLbThanhtien() {
-    return lbThanhtien;
-  }
-
-  public void setLbThanhtien(JLabel lbThanhtien) {
-    this.lbThanhtien = lbThanhtien;
-  }
 
   public JLabel getLbTrangthaidonhang() {
     return lbTrangthaidonhang;
@@ -2345,4 +2373,11 @@ public class HomeView extends JFrame {
     this.btnExitchitietdonhang = btnExitchitietdonhang;
   }
 
+  public void setBtnExit(JButton btnExit) {
+    this.btnExit = btnExit;
+  }
+
+  public JLabel getLbMasanpham() {
+    return lbMasanpham;
+  }
 }

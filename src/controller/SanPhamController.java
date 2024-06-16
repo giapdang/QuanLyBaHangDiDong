@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.response.Item;
@@ -37,6 +38,8 @@ public class SanPhamController {
     updateSanPham();
     clickMouse();
     viewProductDetails();
+    refreshSanPhamList();
+    refreshSanPhamListGiaBanRa();
   }
 
   //method load san pham
@@ -77,6 +80,8 @@ public class SanPhamController {
             sanPhamService.deleteById(IDSanPham);
             DefaultTableModel model = (DefaultTableModel) homeView.getTable().getModel();
             khoHangController.loadKhoHang();
+            refreshSanPhamList();
+            refreshSanPhamListGiaBanRa();
             model.removeRow(row);
           }
         }
@@ -115,6 +120,8 @@ public class SanPhamController {
           homeView.clearSanPham();
           loadSanPham(); // Load lại bảng sản phẩm sau khi thêm
           khoHangController.loadKhoHang();
+          refreshSanPhamList();
+          refreshSanPhamListGiaBanRa();
         } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(homeView, "Giá bán và giá nhập phải là số");
         }
@@ -150,6 +157,8 @@ public class SanPhamController {
           homeView.clearSanPham();
           loadSanPham(); // Load lại bảng sản phẩm sau khi cập nhật
           khoHangController.loadKhoHang();
+          refreshSanPhamList();
+          refreshSanPhamListGiaBanRa();
         }
       }
     });
@@ -231,6 +240,28 @@ public class SanPhamController {
       }
     });
   }
-  //method refresh
-
+  //method refresh san pham
+  public void refreshSanPhamList() {
+    // Clear the JComboBox
+    JComboBox<Item> CbTenSanPham = homeView.getCbTensanphamdonhang();
+    CbTenSanPham.removeAllItems();
+    // Get the updated list of DanhMuc
+    List<Item> updatedSanPhamNames = sanPhamService.getAllName();
+    // Repopulate the JComboBox
+    for (Item item : updatedSanPhamNames) {
+      CbTenSanPham.addItem(item);
+    }
+  }
+  //method refresh san pham gia ban ra
+  public void refreshSanPhamListGiaBanRa() {
+    // Clear the JComboBox
+    JComboBox<Item> CbGiaBanSanPham = homeView.getCbGiaBandonhang();
+    CbGiaBanSanPham.removeAllItems();
+    // Get the updated list of DanhMuc
+    List<Item> updatedGiaBanSanPhamNames = sanPhamService.getIDGiaBanRa();
+    // Repopulate the JComboBox
+    for (Item item : updatedGiaBanSanPhamNames) {
+      CbGiaBanSanPham.addItem(item);
+    }
+  }
 }
