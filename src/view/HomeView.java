@@ -70,14 +70,8 @@ public class HomeView extends JFrame {
   private JComboBox<Item> CbNguoiNhap;
 
   //Cac thuoc tinh dung trong muc Hoa Don
-  private JLabel lbIdhoadon;
-  private JTextField TfIdhoadon;
-  private JLabel lbTongTienThanhToan;
-  private JTextField TfTongTienThanhToan;
-  private JLabel lbNgayThanhToan;
-  private JTextField TfNgayThanhToan;
   private JTable table_hoadon;
-  private JButton btnAddhoadon, btnEdithoadon, btnDeletehoadon, btnExithoadon;
+  private JButton btnViewhoadon, btnExithoadon;
 
   //Cac thuoc tinh dung trong muc Danh Muc
   private JLabel lbTenDanhmuc;
@@ -137,18 +131,8 @@ public class HomeView extends JFrame {
   private JButton btnAdddonhang, btnEditdonhang, btnDeletedonhang, btnExitdonhang;
 
   //Cac thuoc tinh dung trong muc Kho Hang
-  private JLabel lbTensanphamkhohang;
-  private JTextField TfTensanphamkhohang;
-  private JLabel lbSoluongkhohang;
-  private JTextField TfSoluongkhohang;
-  private JLabel lbNgaynhapkhohang;
-  private JTextField TfNgaynhapkhohang;
-  private JLabel lbTenNhaCungCapkhohang;
-  private JComboBox<Item> CbTenNhaCungCapkhohang;
-  private JLabel lbTenNguoiNhapkhohang;
-  private JComboBox<Item> CbTenNguoiNhapkhohang;
   private JTable table_khohang;
-  private JButton btnAddkhohang, btnEditkhohang, btnDeletekhohang, btnExitkhohang;
+  private JButton btnViewkhohang, btnExitkhohang;
 
   //Cac thuoc tinh dung trong muc Chi Tiet Don Hang
   // ID Chi tiet don hang
@@ -455,21 +439,13 @@ public class HomeView extends JFrame {
     JPanel row_3 = new JPanel();
     row_3.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 20));
     row_3.setBackground(Color.decode("#CDE8E5"));
-    btnAddhoadon = new JButton("Thêm");
-    btnAddhoadon.setPreferredSize(new Dimension(100, 50));
-    btnAddhoadon.setFont(new Font("Arial", Font.BOLD, 20));
-    btnEdithoadon = new JButton("Sửa");
-    btnEdithoadon.setPreferredSize(new Dimension(100, 50));
-    btnEdithoadon.setFont(new Font("Arial", Font.BOLD, 20));
-    btnDeletehoadon = new JButton("Xóa");
-    btnDeletehoadon.setPreferredSize(new Dimension(100, 50));
-    btnDeletehoadon.setFont(new Font("Arial", Font.BOLD, 20));
+    btnViewhoadon = new JButton("View");
+    btnViewhoadon.setPreferredSize(new Dimension(100, 50));
+    btnViewhoadon.setFont(new Font("Arial", Font.BOLD, 20));
     btnExithoadon = new JButton("Thoát");
     btnExithoadon.setPreferredSize(new Dimension(100, 50));
     btnExithoadon.setFont(new Font("Arial", Font.BOLD, 20));
-    row_3.add(btnAddhoadon);
-    row_3.add(btnEdithoadon);
-    row_3.add(btnDeletehoadon);
+    row_3.add(btnViewhoadon);
     row_3.add(btnExithoadon);
     panel.add(row_3);
     panel.setBackground(Color.decode("#CDE8E5"));
@@ -921,73 +897,16 @@ public class HomeView extends JFrame {
     row_0.add(padding_0);
     panel.add(row_0);
     JPanel row_1 = new JPanel();
-    row_1.setLayout(new FlowLayout(FlowLayout.LEFT, 23, 1));
+    row_1.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 30));
     row_1.setBackground(Color.decode("#CDE8E5"));
-    JPanel subrow1_1 = new JPanel();
-    subrow1_1.setBackground(Color.decode("#CDE8E5"));
-    row_1.add(subrow1_1);
-    JPanel subrow1_2 = new JPanel();
-    subrow1_2.setLayout(new GridBagLayout());
-    subrow1_2.setBackground(Color.decode("#CDE8E5"));
-    GridBagConstraints gbc = new GridBagConstraints();
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.insets = new Insets(5, 5, 5, 5);
-    lbTensanphamkhohang = new JLabel("Tên Sản Phẩm:");
-    TfTensanphamkhohang = new JTextField(20);
-    lbSoluongkhohang = new JLabel("Số Lượng:");
-    TfSoluongkhohang = new JTextField(20);
-    lbNgaynhapkhohang = new JLabel("Ngày Nhập:");
-    TfNgaynhapkhohang = new JTextField(20);
-    lbTenNhaCungCapkhohang = new JLabel("Tên Nhà Cung Cấp:");
-    lbTenNguoiNhapkhohang = new JLabel("Tên Người Nhập:");
-    int dodai = lbTenNhaCungCapkhohang.getPreferredSize().width;
-    Dimension labelSize = new Dimension(dodai, lbTenNhaCungCapkhohang.getPreferredSize().height);
-    setLabelSize(lbTensanphamkhohang, labelSize);
-    setLabelSize(lbSoluongkhohang, labelSize);
-    setLabelSize(lbNgaynhapkhohang, labelSize);
-    setLabelSize(lbTenNguoiNhapkhohang, labelSize);
-    addComponent(subrow1_2, lbTensanphamkhohang, gbc, 0, 0);
-    addComponent(subrow1_2, TfTensanphamkhohang, gbc, 1, 0);
-    addComponent(subrow1_2, lbSoluongkhohang, gbc, 0, 1);
-    addComponent(subrow1_2, TfSoluongkhohang, gbc, 1, 1);
-    addComponent(subrow1_2, lbNgaynhapkhohang, gbc, 0, 2);
-    addComponent(subrow1_2, TfNgaynhapkhohang, gbc, 1, 2);
-    row_1.add(subrow1_2);
+    JLabel hoadonthanhtoan = new JLabel("Kho Hàng");
+    hoadonthanhtoan.setFont(new Font("Arial", Font.BOLD, 40));
+    row_1.add(hoadonthanhtoan);
     panel.add(row_1);
-    JPanel row2 = new JPanel();
-    row2.setLayout(new FlowLayout(FlowLayout.LEFT, 18, 1));
-    row2.setBackground(Color.decode("#CDE8E5"));
-    JPanel padding_1 = new JPanel();
-    padding_1.setBackground(Color.decode("#CDE8E5"));
-    JPanel H = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 1));
-    H.setBackground(Color.decode("#CDE8E5"));
-
-    NhaCungCapService nhaCungCapService = new NhaCungCapService(null);
-    List<Item> nhaCungCapNames = nhaCungCapService.getAllTenNhaCungCap();
-    CbTenNhaCungCapkhohang = new JComboBox<>(nhaCungCapNames.toArray(new Item[0]));
-    CbTenNhaCungCapkhohang.setPreferredSize(
-        new Dimension(200, CbTenNhaCungCapkhohang.getPreferredSize().height));
-
-    H.add(lbTenNhaCungCapkhohang);
-    H.add(CbTenNhaCungCapkhohang);
-    JPanel I = new JPanel();
-    I.setBackground(Color.decode("#CDE8E5"));
-
-    NguoiNhapService nguoiNhapService = new NguoiNhapService(null);
-    List<Item> nguoiNhapNames = nguoiNhapService.getTenNhanVienList();
-    CbTenNguoiNhapkhohang = new JComboBox<>(nguoiNhapNames.toArray(new Item[0]));
-    CbTenNguoiNhapkhohang.setPreferredSize(
-        new Dimension(200, CbTenNguoiNhapkhohang.getPreferredSize().height));
-
-    I.add(lbTenNguoiNhapkhohang);
-    I.add(CbTenNguoiNhapkhohang);
-    row2.add(padding_1);
-    row2.add(H);
-    row2.add(I);
-    panel.add(row2);
-    JPanel row_3 = new JPanel();
-    row_3.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 30));
-    row_3.setBackground(Color.decode("#CDE8E5"));
+    
+    JPanel row_2 = new JPanel();
+    row_2.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 30));
+    row_2.setBackground(Color.decode("#CDE8E5"));
     table_khohang = new JTable(new DefaultTableModel(
         new Object[]{"ID Kho", "Tên Sản Phẩm", "Số Lượng", "Ngày Nhập", "Tên Nhà Cung Cấp",
             "Tên Người Nhập"}, 0
@@ -1000,28 +919,21 @@ public class HomeView extends JFrame {
 
     // Tính toán kích thước dựa trên DPI
     scrollPane.setPreferredSize(new Dimension(1100, 600));
-    row_3.add(scrollPane);
-    panel.add(row_3);
-    JPanel row_4 = new JPanel();
-    row_4.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 30));
-    row_4.setBackground(Color.decode("#CDE8E5"));
-    btnAddkhohang = new JButton("Thêm");
-    btnAddkhohang.setPreferredSize(new Dimension(100, 50));
-    btnAddkhohang.setFont(new Font("Arial", Font.BOLD, 20));
-    btnEditkhohang = new JButton("Sửa");
-    btnEditkhohang.setPreferredSize(new Dimension(100, 50));
-    btnEditkhohang.setFont(new Font("Arial", Font.BOLD, 20));
-    btnDeletekhohang = new JButton("Xóa");
-    btnDeletekhohang.setPreferredSize(new Dimension(100, 50));
-    btnDeletekhohang.setFont(new Font("Arial", Font.BOLD, 20));
+    row_2.add(scrollPane);
+    panel.add(row_2);
+    JPanel row_3 = new JPanel();
+    row_3.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 30));
+    row_3.setBackground(Color.decode("#CDE8E5"));
+    btnViewkhohang = new JButton("View");
+    btnViewkhohang.setPreferredSize(new Dimension(100, 50));
+    btnViewkhohang.setFont(new Font("Arial", Font.BOLD, 20));
     btnExitkhohang = new JButton("Thoát");
     btnExitkhohang.setPreferredSize(new Dimension(100, 50));
     btnExitkhohang.setFont(new Font("Arial", Font.BOLD, 20));
-    row_4.add(btnAddkhohang);
-    row_4.add(btnEditkhohang);
-    row_4.add(btnDeletekhohang);
-    row_4.add(btnExitkhohang);
-    panel.add(row_4);
+    row_3.add(btnViewkhohang);
+
+    row_3.add(btnExitkhohang);
+    panel.add(row_3);
     return panel;
   }
 
@@ -1372,30 +1284,6 @@ public class HomeView extends JFrame {
         this.TfSoluong = TfSoluong;
     }
 
-    public JTextField getTfIdhoadon() {
-        return TfIdhoadon;
-    }
-
-    public void setTfIdhoadon(JTextField TfIdhoadon) {
-        this.TfIdhoadon = TfIdhoadon;
-    }
-
-    public JTextField getTfTongTienThanhToan() {
-        return TfTongTienThanhToan;
-    }
-
-    public void setTfTongTienThanhToan(JTextField TfTongTienThanhToan) {
-        this.TfTongTienThanhToan = TfTongTienThanhToan;
-    }
-
-    public JTextField getTfNgayThanhToan() {
-        return TfNgayThanhToan;
-    }
-
-    public void setTfNgayThanhToan(JTextField TfNgayThanhToan) {
-        this.TfNgayThanhToan = TfNgayThanhToan;
-    }
-
     public JTextField getTfTenDanhmuc() {
         return TfTenDanhmuc;
     }
@@ -1598,30 +1486,6 @@ public class HomeView extends JFrame {
         this.table_donhang = table_donhang;
     }
 
-    public JButton getBtnAddkhohang() {
-        return btnAddkhohang;
-    }
-
-    public void setBtnAddkhohang(JButton btnAddkhohang) {
-        this.btnAddkhohang = btnAddkhohang;
-    }
-
-    public JButton getBtnEditkhohang() {
-        return btnEditkhohang;
-    }
-
-    public void setBtnEditkhohang(JButton btnEditkhohang) {
-        this.btnEditkhohang = btnEditkhohang;
-    }
-
-    public JButton getBtnDeletekhohang() {
-        return btnDeletekhohang;
-    }
-
-    public void setBtnDeletekhohang(JButton btnDeletekhohang) {
-        this.btnDeletekhohang = btnDeletekhohang;
-    }
-
     public JButton getBtnExitkhohang() {
         return btnExitkhohang;
     }
@@ -1638,13 +1502,7 @@ public class HomeView extends JFrame {
         this.lbNguoiNhap = lbNguoiNhap;
     }
 
-    public JLabel getLbNgayThanhToan() {
-        return lbNgayThanhToan;
-    }
 
-    public void setLbNgayThanhToan(JLabel lbNgayThanhToan) {
-        this.lbNgayThanhToan = lbNgayThanhToan;
-    }
 
     public JLabel getLbSodienthoai() {
         return lbSodienthoai;
@@ -1700,87 +1558,6 @@ public class HomeView extends JFrame {
 
     public void setLbSodienthoaiNhanVien(JLabel lbSodienthoaiNhanVien) {
         this.lbSodienthoaiNhanVien = lbSodienthoaiNhanVien;
-    }
-
-
-    public JLabel getLbTensanphamkhohang() {
-        return lbTensanphamkhohang;
-    }
-
-    public void setLbTensanphamkhohang(JLabel lbTensanphamkhohang) {
-        this.lbTensanphamkhohang = lbTensanphamkhohang;
-    }
-
-    public JTextField getTfTensanphamkhohang() {
-        return TfTensanphamkhohang;
-    }
-
-    public void setTfTensanphamkhohang(JTextField TfTensanphamkhohang) {
-        this.TfTensanphamkhohang = TfTensanphamkhohang;
-    }
-
-    public JLabel getLbSoluongkhohang() {
-        return lbSoluongkhohang;
-    }
-
-    public void setLbSoluongkhohang(JLabel lbSoluongkhohang) {
-        this.lbSoluongkhohang = lbSoluongkhohang;
-    }
-
-    public JTextField getTfSoluongkhohang() {
-        return TfSoluongkhohang;
-    }
-
-    public void setTfSoluongkhohang(JTextField TfSoluongkhohang) {
-        this.TfSoluongkhohang = TfSoluongkhohang;
-    }
-
-    public JLabel getLbNgaynhapkhohang() {
-        return lbNgaynhapkhohang;
-    }
-
-    public void setLbNgaynhapkhohang(JLabel lbNgaynhapkhohang) {
-        this.lbNgaynhapkhohang = lbNgaynhapkhohang;
-    }
-
-    public JTextField getTfNgaynhapkhohang() {
-        return TfNgaynhapkhohang;
-    }
-
-    public void setTfNgaynhapkhohang(JTextField TfNgaynhapkhohang) {
-        this.TfNgaynhapkhohang = TfNgaynhapkhohang;
-    }
-
-    public JLabel getLbTenNhaCungCapkhohang() {
-        return lbTenNhaCungCapkhohang;
-    }
-
-    public void setLbTenNhaCungCapkhohang(JLabel lbTenNhaCungCapkhohang) {
-        this.lbTenNhaCungCapkhohang = lbTenNhaCungCapkhohang;
-    }
-
-    public JComboBox<Item> getCbTenNhaCungCapkhohang() {
-        return CbTenNhaCungCapkhohang;
-    }
-
-    public void setCbTenNhaCungCapkhohang(JComboBox<Item> CbTenNhaCungCapkhohang) {
-        this.CbTenNhaCungCapkhohang = CbTenNhaCungCapkhohang;
-    }
-
-    public JLabel getLbTenNguoiNhapkhohang() {
-        return lbTenNguoiNhapkhohang;
-    }
-
-    public void setLbTenNguoiNhapkhohang(JLabel lbTenNguoiNhapkhohang) {
-        this.lbTenNguoiNhapkhohang = lbTenNguoiNhapkhohang;
-    }
-
-    public JComboBox<Item> getCbTenNguoiNhapkhohang() {
-        return CbTenNguoiNhapkhohang;
-    }
-
-    public void setCbTenNguoiNhapkhohang(JComboBox<Item> CbTenNguoiNhapkhohang) {
-        this.CbTenNguoiNhapkhohang = CbTenNguoiNhapkhohang;
     }
 
     public JTable getTable_khohang() {
@@ -1992,29 +1769,6 @@ public class HomeView extends JFrame {
     this.btnDonHang = btnDonHang;
   }
 
-  public JButton getBtnAddhoadon() {
-    return btnAddhoadon;
-  }
-
-  public void setBtnAddhoadon(JButton btnAddhoadon) {
-    this.btnAddhoadon = btnAddhoadon;
-  }
-
-  public JButton getBtnEdithoadon() {
-    return btnEdithoadon;
-  }
-
-  public void setBtnEdithoadon(JButton btnEdithoadon) {
-    this.btnEdithoadon = btnEdithoadon;
-  }
-
-  public JButton getBtnDeletehoadon() {
-    return btnDeletehoadon;
-  }
-
-  public void setBtnDeletehoadon(JButton btnDeletehoadon) {
-    this.btnDeletehoadon = btnDeletehoadon;
-  }
 
   public JButton getBtnExithoadon() {
     return btnExithoadon;
@@ -2249,21 +2003,8 @@ public class HomeView extends JFrame {
     this.lbTenNhaCungCap = lbTenNhaCungCap;
   }
 
-  public JLabel getLbIdhoadon() {
-    return lbIdhoadon;
-  }
 
-  public void setLbIdhoadon(JLabel lbIdhoadon) {
-    this.lbIdhoadon = lbIdhoadon;
-  }
 
-  public JLabel getLbTongTienThanhToan() {
-    return lbTongTienThanhToan;
-  }
-
-  public void setLbTongTienThanhToan(JLabel lbTongTienThanhToan) {
-    this.lbTongTienThanhToan = lbTongTienThanhToan;
-  }
 
   public JLabel getLbTenDanhmuc() {
     return lbTenDanhmuc;
