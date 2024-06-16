@@ -73,4 +73,34 @@ public class NguoiNhapService {
       e.printStackTrace();
     }
   }
+  //method update nguoi nhap
+  public void updateNguoiNhap(int IDNguoiNhap, String TenNguoiNhap, String Email, String MatKhau,
+      String SoDienThoai) {
+    String query = "UPDATE nguoinhap SET TenNguoiNhap = ?, Email = ?, MatKhau = ?, SoDienThoai = ? WHERE IDNguoiNhap = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+      preparedStatement.setString(1, TenNguoiNhap);
+      preparedStatement.setString(2, Email);
+      preparedStatement.setString(3, MatKhau);
+      preparedStatement.setString(4, SoDienThoai);
+      preparedStatement.setInt(5, IDNguoiNhap);
+      preparedStatement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //method xoa nguoi nhap
+  public void deleteNguoiNhap(int IDNguoiNhap) {
+    String query = "DELETE FROM nguoinhap WHERE IDNguoiNhap = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setInt(1, IDNguoiNhap);
+      preparedStatement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

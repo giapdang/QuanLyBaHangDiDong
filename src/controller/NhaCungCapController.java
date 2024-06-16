@@ -30,24 +30,19 @@ public class NhaCungCapController {
 
   //method hien thi tat ca nha cung cap
   public void showAllNhaCungCap() {
-    homeView.getBtnNhaCungCap().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        List<NhaCungCapSanPham> nhaCungCapSanPhamList = nhaCungCapService.getAllNhaCungCap();
-        DefaultTableModel model = (DefaultTableModel) homeView.getTable_nhacungcap().getModel();
-        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+    List<NhaCungCapSanPham> nhaCungCapList = nhaCungCapService.getAllNhaCungCap();
+    DefaultTableModel model = (DefaultTableModel) homeView.getTable_nhacungcap().getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
 
-        for (NhaCungCapSanPham ncc : nhaCungCapSanPhamList) {
-          Object[] row = {
-              ncc.getIDNhaCungCap(),
-              ncc.getTenNhaCungCap(),
-              ncc.getDiaChi(),
-              ncc.getSoDienThoai()
-          };
-          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
-        }
-      }
-    });
+    for (NhaCungCapSanPham ncc : nhaCungCapList) {
+      Object[] row = {
+          ncc.getIDNhaCungCap(),
+          ncc.getTenNhaCungCap(),
+          ncc.getDiaChi(),
+          ncc.getSoDienThoai()
+      };
+      model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+    }
   }
 
   //method refresh
@@ -91,6 +86,7 @@ public class NhaCungCapController {
             nhaCungCapService.updateNhaCungCap(IDNhaCungCap, TenNhaCungCap, DiaChi, SoDienThoai);
             showAllNhaCungCap();
             refreshNhaCungCapList();
+            homeView.clearNhaCungCap();
             JOptionPane.showMessageDialog(homeView, "Sửa nhà cung cấp thành công");
           } catch (Exception e2) {
             JOptionPane.showMessageDialog(homeView, "Sửa nhà cung cấp thất bại");
@@ -132,6 +128,7 @@ public class NhaCungCapController {
           String DiaChi = homeView.getTfDiachi().getText();
           String SoDienThoai = homeView.getTfSodienthoai().getText();
           nhaCungCapService.addNhaCungCap(TenNhaCungCap, DiaChi, SoDienThoai);
+          homeView.clearNhaCungCap();
           showAllNhaCungCap();
           refreshNhaCungCapList();
           JOptionPane.showMessageDialog(homeView, "Thêm nhà cung cấp thành công");
@@ -159,6 +156,7 @@ public class NhaCungCapController {
             showAllNhaCungCap();
             refreshNhaCungCapList();
             JOptionPane.showMessageDialog(homeView, "Xóa nhà cung cấp thành công");
+            homeView.clearNhaCungCap();
           } catch (Exception e2) {
             JOptionPane.showMessageDialog(homeView, "Xóa nhà cung cấp thất bại");
             e2.printStackTrace();
