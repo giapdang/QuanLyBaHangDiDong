@@ -133,10 +133,8 @@ public class login extends JFrame {
     private void addComponents() {
         Container con = getContentPane();
         con.setLayout(new BorderLayout());
-
         JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(background, BorderLayout.CENTER);
-
         con.add(contentPane, BorderLayout.CENTER);
     }
 
@@ -165,6 +163,7 @@ public class login extends JFrame {
         }
         
         if (dangnhapthanhcong) {
+            this.dispose();
             HomeView homeView = new HomeView();
             SanPhamService sanPhamService = new SanPhamService(homeView);
             DanhMucService danhMucService = new DanhMucService(homeView);
@@ -183,7 +182,7 @@ public class login extends JFrame {
             NguoiNhapController nguoiNhapController = new NguoiNhapController(homeView, nguoiNhapService);
             KhachHangController khachHangController = new KhachHangController(homeView, khachHangService);
             KhoHangController khoHangController = new KhoHangController(homeView, khoHangService);
-            this.dispose();
+            
         } else {
             if ("".equals(username) || "".equals(password)) {
                 JOptionPane.showMessageDialog(null, "Hãy điền đủ các thông tin của bạn");

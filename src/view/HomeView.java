@@ -512,7 +512,7 @@ public class HomeView extends JFrame {
         JPanel row_4 = new JPanel();
         row_4.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 10));
         row_4.setBackground(Color.decode("#D1E8D8"));
-        btnViewhoadon = new JButton("View");
+        btnViewhoadon = new JButton("Xem");
         btnViewhoadon.setPreferredSize(new Dimension(100, 50));
         btnViewhoadon.setBackground(Color.decode("#3F4952"));
         btnViewhoadon.setForeground(Color.decode("#FFFFFF"));
@@ -1146,7 +1146,7 @@ public class HomeView extends JFrame {
         JPanel row_4 = new JPanel();
         row_4.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 30));
         row_4.setBackground(Color.decode("#D1E8D8"));
-        btnViewkhohang = new JButton("View");
+        btnViewkhohang = new JButton("Xem");
         btnViewkhohang.setPreferredSize(new Dimension(100, 50));
         btnViewkhohang.setBackground(Color.decode("#3F4952"));
         btnViewkhohang.setForeground(Color.decode("#FFFFFF"));
