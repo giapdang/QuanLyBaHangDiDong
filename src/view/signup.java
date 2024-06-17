@@ -21,7 +21,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class signup extends JFrame {
-
     JLabel logLB, userLB, passLB, emailLB, phoneLB;
     JButton sigBT, logBT;
     JTextField JTF1, JTF2, JTF3;
@@ -275,3 +274,6 @@ public class signup extends JFrame {
         ui.showWindow();
     }
 }
+
+
+

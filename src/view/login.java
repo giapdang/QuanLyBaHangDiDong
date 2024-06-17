@@ -2,6 +2,7 @@ package view;
 
 import controller.DanhMucController;
 import controller.DonHangController;
+import controller.HoaDonController;
 import controller.KhachHangController;
 import controller.KhoHangController;
 import controller.NguoiNhapController;
@@ -18,7 +19,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +29,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import model.service.DanhMucService;
 import model.service.DonHangService;
+import model.service.HoaDonService;
 import model.service.KhachHangService;
 import model.service.KhoHangService;
 import model.service.NguoiNhapService;
@@ -162,8 +163,8 @@ public class login extends JFrame {
         if ("".equals(username) || "".equals(password)) {
             dangnhapthanhcong = false;
         }
+        
         if (dangnhapthanhcong) {
-            HomeView mainui = new HomeView();
             HomeView homeView = new HomeView();
             SanPhamService sanPhamService = new SanPhamService(homeView);
             DanhMucService danhMucService = new DanhMucService(homeView);
@@ -172,7 +173,8 @@ public class login extends JFrame {
             NguoiNhapService nguoiNhapService = new NguoiNhapService(homeView);
             KhoHangService khoHangService = new KhoHangService(homeView);
             DonHangService donHangService = new DonHangService(homeView);
-            DonHangController donHangController = new DonHangController(homeView, donHangService);
+            HoaDonService Hoadonservice=new HoaDonService(homeView);
+//            DonHangController donHangController = new DonHangController(homeView, donHangService,Hoadonservice);
             SanPhamController sanPhamController = new SanPhamController(sanPhamService, homeView,
                     new KhoHangController(homeView, khoHangService));
             DanhMucController danhMucController = new DanhMucController(homeView, danhMucService);
@@ -181,7 +183,7 @@ public class login extends JFrame {
             NguoiNhapController nguoiNhapController = new NguoiNhapController(homeView, nguoiNhapService);
             KhachHangController khachHangController = new KhachHangController(homeView, khachHangService);
             KhoHangController khoHangController = new KhoHangController(homeView, khoHangService);
-            dispose();
+            this.dispose();
         } else {
             if ("".equals(username) || "".equals(password)) {
                 JOptionPane.showMessageDialog(null, "Hãy điền đủ các thông tin của bạn");
@@ -195,7 +197,7 @@ public class login extends JFrame {
     private void open() {
         signup ui = new signup("Đăng Ký");
         ui.showWindow();
-        dispose();
+        this.dispose();
     }
 
     public void showWindow() {
@@ -212,3 +214,5 @@ public class login extends JFrame {
         ui.showWindow();
     }
 }
+
+
