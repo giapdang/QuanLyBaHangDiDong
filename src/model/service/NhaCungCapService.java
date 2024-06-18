@@ -45,7 +45,8 @@ public class NhaCungCapService {
     List<NhaCungCapSanPham> nhaCungCapSanPhams = new ArrayList<>();
 
     try (Connection connection = Jdbc.getJdbc();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_NHA_CUNG_CAP)) {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+            SELECT_ALL_NHA_CUNG_CAP)) {
 
       ResultSet rs = preparedStatement.executeQuery();
 
@@ -65,6 +66,7 @@ public class NhaCungCapService {
     }
     return nhaCungCapSanPhams;
   }
+
   //method update nha cung cap
   public void updateNhaCungCap(int IDNhaCungCap, String TenNhaCungCap, String DiaChi,
       String SoDienThoai) {
@@ -83,6 +85,7 @@ public class NhaCungCapService {
       e.printStackTrace();
     }
   }
+
   //method them nha cung cap
   public void addNhaCungCap(String TenNhaCungCap, String DiaChi, String SoDienThoai) {
     String query = "INSERT INTO nhacungcapsanpham(TenNhaCungCap, DiaChi, SoDienThoai) VALUES (?, ?, ?)";
@@ -99,6 +102,7 @@ public class NhaCungCapService {
       e.printStackTrace();
     }
   }
+
   //method xoa nha cung cap
   public void deleteNhaCungCap(int IDNhaCungCap) {
     String query = "DELETE FROM nhacungcapsanpham WHERE IDNhaCungCap = ?";
@@ -111,5 +115,37 @@ public class NhaCungCapService {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  //method tim kiem nha cung cap theo ten nha cung cap va so dien thoai va dia chi nha cung cap va id nha cung cap
+  public List<NhaCungCapSanPham> searchNhaCungCap(String search) {
+    List<NhaCungCapSanPham> nhaCungCapSanPhams = new ArrayList<>();
+    String query = "SELECT IDNhaCungCap, TenNhaCungCap, DiaChi, SoDienThoai FROM nhacungcapsanpham "
+        + "WHERE TenNhaCungCap LIKE ? OR SoDienThoai LIKE ? OR DiaChi LIKE ? OR IDNhaCungCap = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+      preparedStatement.setString(1, "%" + search + "%");
+      preparedStatement.setString(2, "%" + search + "%");
+      preparedStatement.setString(3, "%" + search + "%");
+      preparedStatement.setString(4, search);
+
+      ResultSet rs = preparedStatement.executeQuery();
+
+      while (rs.next()) {
+        int IDNhaCungCap = rs.getInt("IDNhaCungCap");
+        String TenNhaCungCap = rs.getString("TenNhaCungCap");
+        String DiaChi = rs.getString("DiaChi");
+        String SoDienThoai = rs.getString("SoDienThoai");
+
+        NhaCungCapSanPham nhaCungCapSanPham = new NhaCungCapSanPham(IDNhaCungCap, TenNhaCungCap,
+            DiaChi, SoDienThoai);
+        nhaCungCapSanPhams.add(nhaCungCapSanPham);
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return nhaCungCapSanPhams;
   }
 }

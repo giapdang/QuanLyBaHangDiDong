@@ -18,7 +18,7 @@ public class DonHangService {
 
   private HomeView homeView;
 
-  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   public DonHangService(HomeView homeView) {
     this.homeView = homeView;
@@ -123,17 +123,117 @@ public class DonHangService {
       insertProductStatement3.setString(3, dateFormat.format(new Date()));
       insertProductStatement3.executeUpdate();
 
+      //update so luong ton kho trong kho
+      insertProductStatement3 = connection.prepareStatement(
+          "UPDATE khohang SET soluongtonkho = soluongtonkho - ? WHERE idsanpham = ?");
+      insertProductStatement3.setInt(1, soLuong);
+      insertProductStatement3.setInt(2, idSanPham);
+      insertProductStatement3.executeUpdate();
+
       connection.commit();
     } catch (Exception e) {
       if (connection != null) {
         try {
           System.err.print("Transaction is being rolled back");
           connection.rollback();
-        } catch(SQLException excep) {
+        } catch (SQLException excep) {
           excep.printStackTrace();
         }
       }
       e.printStackTrace();
     }
+  }
+
+  //method xoa don hang
+  public void deleteDonHang(int idDonHang) {
+    Connection connection = null;
+    PreparedStatement deleteDonHangStatement = null;
+    PreparedStatement deleteCtdhStatement = null;
+    PreparedStatement deleteHoaDonStatement = null;
+    PreparedStatement selectCtdhStatement = null;
+    PreparedStatement updateKhoHangStatement = null;
+    try {
+      connection = Jdbc.getJdbc();
+      connection.setAutoCommit(false);
+
+
+      selectCtdhStatement = connection.prepareStatement(
+          "SELECT idsanpham, soluong FROM chitietdonhang WHERE iddonhang = ?");
+      selectCtdhStatement.setInt(1, idDonHang);
+      ResultSet rs = selectCtdhStatement.executeQuery();
+
+
+      deleteCtdhStatement = connection.prepareStatement(
+          "DELETE FROM chitietdonhang WHERE iddonhang = ?");
+      deleteCtdhStatement.setInt(1, idDonHang);
+      deleteCtdhStatement.executeUpdate();
+
+      deleteHoaDonStatement = connection.prepareStatement("DELETE FROM hoadon WHERE iddonhang = ?");
+      deleteHoaDonStatement.setInt(1, idDonHang);
+      deleteHoaDonStatement.executeUpdate();
+
+      deleteDonHangStatement = connection.prepareStatement(
+          "DELETE FROM donhang WHERE iddonhang = ?");
+      deleteDonHangStatement.setInt(1, idDonHang);
+      deleteDonHangStatement.executeUpdate();
+
+      while (rs.next()) {
+        int idSanPham = rs.getInt("idsanpham");
+        int soLuong = rs.getInt("soluong");
+        updateKhoHangStatement = connection.prepareStatement(
+            "UPDATE khohang SET soluongtonkho = soluongtonkho + ? WHERE idsanpham = ?");
+        updateKhoHangStatement.setInt(1, soLuong);
+        updateKhoHangStatement.setInt(2, idSanPham);
+        updateKhoHangStatement.executeUpdate();
+      }
+
+      connection.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //method update don hang trang thai don hang
+  public void updateDonHang(String trangThaiDonHang, int idDonHang) {
+    String query = "UPDATE donhang SET trangthaidonhang = ? WHERE iddonhang = ?";
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, trangThaiDonHang);
+      preparedStatement.setInt(2, idDonHang);
+      preparedStatement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //method tim kiem don hang theo ten khach hang hoac id don hang
+  public List<DonHangResponse> searchDonHang(String search) {
+    List<DonHangResponse> donHangs = new ArrayList<>();
+    String query =
+        "SELECT dh.IDDonHang ,dh.NgayTaoDonHang ,dh.TongTienDonHang ,dh.TrangThaiDonHang ,kh.IDKhachHang ,kh.TenKhachHang "
+            + "FROM donhang dh ,khachhang kh "
+            + "WHERE dh.IDKhachHang = kh.IDKhachHang AND (kh.TenKhachHang LIKE ? OR dh.IDDonHang = ?)";
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, "%" + search + "%");
+      preparedStatement.setString(2, search);
+      ResultSet rs = preparedStatement.executeQuery();
+      while (rs.next()) {
+        int IDDonHang = rs.getInt("IDDonHang");
+        double TongTienDonHang = rs.getDouble("TongTienDonHang");
+        String TrangThaiDonHang = rs.getString("TrangThaiDonHang");
+        Date NgayTaoDonHang = dateFormat.parse(rs.getString("NgayTaoDonHang"));
+        int IDKhachHang = rs.getInt("IDKhachHang");
+        String TenKhachHang = rs.getString("TenKhachHang");
+        DonHangResponse donHang = new DonHangResponse(IDDonHang, NgayTaoDonHang, TongTienDonHang,
+            TrangThaiDonHang, IDKhachHang, TenKhachHang);
+        donHangs.add(donHang);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return donHangs;
   }
 }

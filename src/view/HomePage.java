@@ -1,3 +1,6 @@
+package view;
+
+import controller.ChiTietDonHangController;
 import controller.DanhMucController;
 import controller.DonHangController;
 import controller.HoaDonController;
@@ -6,6 +9,7 @@ import controller.KhoHangController;
 import controller.NguoiNhapController;
 import controller.NhaCungCapController;
 import controller.SanPhamController;
+import model.service.ChiTietDonHangService;
 import model.service.DanhMucService;
 import model.service.DonHangService;
 import model.service.HoaDonService;
@@ -16,9 +20,9 @@ import model.service.NhaCungCapService;
 import model.service.SanPhamService;
 import view.HomeView;
 
-public class Test {
+public class HomePage {
 
-  public static void main(String[] args) {
+  public void run() {
     HomeView homeView = new HomeView();
     SanPhamService sanPhamService = new SanPhamService(homeView);
     DanhMucService danhMucService = new DanhMucService(homeView);
@@ -29,8 +33,12 @@ public class Test {
     DonHangService donHangService = new DonHangService(homeView);
     HoaDonService hoaDonService = new HoaDonService(homeView);
     HoaDonController hoaDonController = new HoaDonController(homeView, hoaDonService);
+    ChiTietDonHangService chiTietDonHangService = new ChiTietDonHangService(homeView);
+    ChiTietDonHangController chiTietDonHangController = new ChiTietDonHangController(homeView,
+        chiTietDonHangService, new KhoHangController(homeView, khoHangService));
     DonHangController donHangController = new DonHangController(homeView, donHangService,
-        hoaDonController);
+        hoaDonController, new KhoHangController(homeView, khoHangService),
+        chiTietDonHangController);
     SanPhamController sanPhamController = new SanPhamController(sanPhamService, homeView,
         new KhoHangController(homeView, khoHangService));
     DanhMucController danhMucController = new DanhMucController(homeView, danhMucService);

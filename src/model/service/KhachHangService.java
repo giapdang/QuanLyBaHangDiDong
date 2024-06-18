@@ -102,5 +102,33 @@ public class KhachHangService {
       e.printStackTrace();
     }
   }
+  //method tim kiem khach hang theo ten khach hang hoac so dien thoai khach hang hoac
+  // email khach hang hoac dia chi khach hang hoac id khach hang
+  public List<KhachHang> searchKhachHang(String search) {
+    List<KhachHang> khachHangList = new ArrayList<>();
+    String query = "SELECT * FROM khachhang WHERE tenkhachhang LIKE ? "
+        + "OR sodienthoai LIKE ? OR email LIKE ? OR diachi LIKE ? OR idkhachhang = ?";
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, "%" + search + "%");
+      preparedStatement.setString(2, "%" + search + "%");
+      preparedStatement.setString(3, "%" + search + "%");
+      preparedStatement.setString(4, "%" + search + "%");
+      preparedStatement.setString(5, search);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
+        int IDKhachHang = resultSet.getInt("IDKhachHang");
+        String TenKhachHang = resultSet.getString("TenKhachHang");
+        String DiaChi = resultSet.getString("DiaChi");
+        String SoDienThoai = resultSet.getString("SoDienThoai");
+        String Email = resultSet.getString("Email");
+        KhachHang khachHang = new KhachHang(IDKhachHang, TenKhachHang, DiaChi, SoDienThoai, Email);
+        khachHangList.add(khachHang);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return khachHangList;
+  }
 
 }

@@ -103,4 +103,26 @@ public class DanhMucService {
       e.printStackTrace();
     }
   }
+  //method tim kiem danh muc theo ten danh muc va id danh muc
+  public List<DanhMucSanPham> searchDanhMuc(String search) {
+    List<DanhMucSanPham> danhMucSanPhams = new ArrayList<>();
+    String query = "SELECT IDDanhMuc, TenDanhMuc, MoTaDanhMuc FROM danhmucsanpham WHERE TenDanhMuc LIKE ? OR IDDanhMuc = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, "%" + search + "%");
+      preparedStatement.setString(2, search);
+
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          danhMucSanPhams.add(
+              new DanhMucSanPham(resultSet.getInt("IDDanhMuc"), resultSet.getString("TenDanhMuc"),
+                  resultSet.getString("MoTaDanhMuc")));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return danhMucSanPhams;
+  }
 }

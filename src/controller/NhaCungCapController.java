@@ -21,11 +21,12 @@ public class NhaCungCapController {
     this.nhaCungCapService = nhaCungCapService;
     showAllNhaCungCap();
     refreshNhaCungCapList();
-    exit();
     updateNhaCungCap();
     clickMouse();
     addNhaCungCap();
     deleteNhaCungCap();
+    timKiemNhaCungCap();
+    loadNhaCungCap();
   }
 
   //method hien thi tat ca nha cung cap
@@ -58,15 +59,6 @@ public class NhaCungCapController {
     }
   }
 
-  //method thoat
-  public void exit() {
-    homeView.getBtnExitncc().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
 
   //method update nha cung cap
   public void updateNhaCungCap() {
@@ -162,6 +154,38 @@ public class NhaCungCapController {
             e2.printStackTrace();
           }
         }
+      }
+    });
+  }
+  //method tim kiem nha cung cap theo ten nha cung cap va so dien thoai va dia chi nha cung cap va id nha cung cap
+  public void timKiemNhaCungCap() {
+    homeView.getBtnSearchnhacungcap().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String search = homeView.getTfSearchnhacungcap().getText();
+        List<NhaCungCapSanPham> nhaCungCapList = nhaCungCapService.searchNhaCungCap(search);
+        DefaultTableModel model = (DefaultTableModel) homeView.getTable_nhacungcap().getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+
+        for (NhaCungCapSanPham ncc : nhaCungCapList) {
+          Object[] row = {
+              ncc.getIDNhaCungCap(),
+              ncc.getTenNhaCungCap(),
+              ncc.getDiaChi(),
+              ncc.getSoDienThoai()
+          };
+          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+        }
+      }
+    });
+  }
+
+  //method load danh sach nha cung cap
+  public void loadNhaCungCap() {
+    homeView.getBtnNhaCungCap().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        showAllNhaCungCap();
       }
     });
   }

@@ -103,4 +103,31 @@ public class NguoiNhapService {
       e.printStackTrace();
     }
   }
+  //method tim kiem nguoi nhap theo ten hoac so dien thoai hoac email hoac id
+  public List<NguoiNhap> searchNguoiNhap(String search) {
+    List<NguoiNhap> nguoiNhapList = new ArrayList<>();
+    String query = "SELECT IDNguoiNhap, TenNguoiNhap, Email, MatKhau, SoDienThoai "
+        + "FROM nguoinhap "
+        + "WHERE SoDienThoai LIKE ? OR Email LIKE ? OR TenNguoiNhap LIKE ? OR IDNguoiNhap = ?";
+
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, "%" + search + "%");
+      preparedStatement.setString(2, "%" + search + "%");
+      preparedStatement.setString(3, "%" + search + "%");
+      preparedStatement.setString(4, search);
+
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          nguoiNhapList.add(
+              new NguoiNhap(resultSet.getInt("IDNguoiNhap"), resultSet.getString("TenNguoiNhap"),
+                  resultSet.getString("Email"), resultSet.getString("MatKhau"),
+                  resultSet.getString("SoDienThoai")));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return nguoiNhapList;
+  }
 }

@@ -24,7 +24,18 @@ public class NguoiNhapController {
     update();
     clickMouse();
     delete();
-    exit();
+    searchNguoiNhap();
+    loadNguoiNhap();
+  }
+
+  //method load nguoi nhap
+  public void loadNguoiNhap() {
+    homeView.getBtnNhanVien().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        showAllNguoiNhap();
+      }
+    });
   }
 
   //method hiem thi tat ca nguoi nhap
@@ -129,16 +140,6 @@ public class NguoiNhapController {
     });
   }
 
-  //method exit
-  public void exit() {
-    homeView.getBtnExitnv().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
-
   //method refresh
   public void refreshDanhMucList() {
     // Clear the JComboBox
@@ -160,6 +161,30 @@ public class NguoiNhapController {
         homeView.getTfEmailNhanVien().setText(homeView.getTable_nhanvien().getValueAt(row, 2).toString());
         homeView.getTfmatkhauNhanVien().setText(homeView.getTable_nhanvien().getValueAt(row, 3).toString());
         homeView.getTfSodienthoaiNhanVien().setText(homeView.getTable_nhanvien().getValueAt(row, 4).toString());
+      }
+    });
+  }
+  //method tim kiem nguoi nhap theo ten hoac so dien thoai hoac email hoac id
+  //method tim kiem nguoi nhap theo ten hoac so dien thoai hoac email hoac id
+  public void searchNguoiNhap() {
+    homeView.getBtnSearchnhanvien().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String search = homeView.getTfSearchnhanvien().getText();
+        List<NguoiNhap> nguoiNhapList = nguoiNhapService.searchNguoiNhap(search);
+        DefaultTableModel model = (DefaultTableModel) homeView.getTable_nhanvien().getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+
+        for (NguoiNhap nn : nguoiNhapList) {
+          Object[] row = {
+              nn.getIDNguoiNhap(),
+              nn.getTenNguoiNhap(),
+              nn.getEmail(),
+              nn.getMatKhau(),
+              nn.getSoDienThoai()
+          };
+          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+        }
       }
     });
   }

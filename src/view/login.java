@@ -1,13 +1,6 @@
 package view;
 
-import controller.DanhMucController;
-import controller.DonHangController;
-import controller.HoaDonController;
-import controller.KhachHangController;
-import controller.KhoHangController;
-import controller.NguoiNhapController;
-import controller.NhaCungCapController;
-import controller.SanPhamController;
+import controller.LoginController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -19,7 +12,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,11 +20,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import model.service.ChiTietDonHangService;
 import model.service.DanhMucService;
 import model.service.DonHangService;
 import model.service.HoaDonService;
 import model.service.KhachHangService;
 import model.service.KhoHangService;
+import model.service.LoginService;
 import model.service.NguoiNhapService;
 import model.service.NhaCungCapService;
 import model.service.SanPhamService;
@@ -134,10 +128,8 @@ public class login extends JFrame {
   private void addComponents() {
     Container con = getContentPane();
     con.setLayout(new BorderLayout());
-
     JPanel contentPane = new JPanel(new BorderLayout());
     contentPane.add(background, BorderLayout.CENTER);
-
     con.add(contentPane, BorderLayout.CENTER);
   }
 
@@ -160,45 +152,93 @@ public class login extends JFrame {
   private void goin() {
     String username = JTF1.getText();
     String password = new String(JPF1.getPassword());
-    boolean dangnhapthanhcong = true;
-    if ("".equals(username) || "".equals(password)) {
-      dangnhapthanhcong = false;
-    }
+
+    LoginService loginService = new LoginService(this);
+    boolean dangnhapthanhcong = loginService.Login(username, password);
     if (dangnhapthanhcong) {
-      HomeView mainui = new HomeView();
-      HomeView homeView = new HomeView();
-      SanPhamService sanPhamService = new SanPhamService(homeView);
-      DanhMucService danhMucService = new DanhMucService(homeView);
-      NhaCungCapService nhaCungCapService = new NhaCungCapService(homeView);
-      KhachHangService khachHangService = new KhachHangService(homeView);
-      NguoiNhapService nguoiNhapService = new NguoiNhapService(homeView);
-      KhoHangService khoHangService = new KhoHangService(homeView);
-      DonHangService donHangService = new DonHangService(homeView);
-      DonHangController donHangController = new DonHangController(homeView, donHangService,
-          new HoaDonController(homeView, new HoaDonService(homeView)));
-      SanPhamController sanPhamController = new SanPhamController(sanPhamService, homeView,
-          new KhoHangController(homeView, khoHangService));
-      DanhMucController danhMucController = new DanhMucController(homeView, danhMucService);
-      NhaCungCapController nhaCungCapController = new NhaCungCapController(homeView,
-          nhaCungCapService);
-      NguoiNhapController nguoiNhapController = new NguoiNhapController(homeView, nguoiNhapService);
-      KhachHangController khachHangController = new KhachHangController(homeView, khachHangService);
-      KhoHangController khoHangController = new KhoHangController(homeView, khoHangService);
-      dispose();
+      this.dispose();
+      JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+      HomePage homePage = new HomePage();
+      homePage.run();
     } else {
       if ("".equals(username) || "".equals(password)) {
         JOptionPane.showMessageDialog(null, "Hãy điền đủ các thông tin của bạn");
-      } else {
-        JOptionPane.showMessageDialog(null, "Sai username hoặc mật khẩu");
       }
-
     }
+  }
+
+  public JLabel getLogLB() {
+    return logLB;
+  }
+
+  public void setLogLB(JLabel logLB) {
+    this.logLB = logLB;
+  }
+
+  public JLabel getUserLB() {
+    return userLB;
+  }
+
+  public void setUserLB(JLabel userLB) {
+    this.userLB = userLB;
+  }
+
+  public JLabel getPassLB() {
+    return passLB;
+  }
+
+  public void setPassLB(JLabel passLB) {
+    this.passLB = passLB;
+  }
+
+  public JButton getLogBT() {
+    return logBT;
+  }
+
+  public void setLogBT(JButton logBT) {
+    this.logBT = logBT;
+  }
+
+  public JButton getSigBT() {
+    return sigBT;
+  }
+
+  public void setSigBT(JButton sigBT) {
+    this.sigBT = sigBT;
+  }
+
+  public JTextField getJTF1() {
+    return JTF1;
+  }
+
+  public void setJTF1(JTextField JTF1) {
+    this.JTF1 = JTF1;
+  }
+
+  public JPasswordField getJPF1() {
+    return JPF1;
+  }
+
+  public void setJPF1(JPasswordField JPF1) {
+    this.JPF1 = JPF1;
+  }
+
+  public void setBackground(Background background) {
+    this.background = background;
+  }
+
+  public JPanel getInputpn() {
+    return inputpn;
+  }
+
+  public void setInputpn(JPanel inputpn) {
+    this.inputpn = inputpn;
   }
 
   private void open() {
     signup ui = new signup("Đăng Ký");
     ui.showWindow();
-    dispose();
+    this.dispose();
   }
 
   public void showWindow() {
@@ -212,7 +252,10 @@ public class login extends JFrame {
 
   public static void main(String[] args) {
     login ui = new login("Đăng nhập");
+    LoginService loginService = new LoginService(ui);
+    LoginController loginController = new LoginController(ui, loginService);
     ui.showWindow();
   }
 }
+
 

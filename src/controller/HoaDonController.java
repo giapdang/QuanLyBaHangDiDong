@@ -21,7 +21,8 @@ public class HoaDonController {
     this.homeView = homeView;
     this.hoaDonService = hoaDonService;
     findByAllHoaDon();
-    exit();
+    timKiemHoaDon();
+    refresh();
   }
 
   //method to get all bill hoa don response
@@ -44,12 +45,39 @@ public class HoaDonController {
       model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
     }
   }
-  //method exit
-  public void exit() {
-    homeView.getBtnExithoadon().addActionListener(new ActionListener() {
+  //method tim kiem hoa don
+  public void timKiemHoaDon() {
+    homeView.getBtnSearchhoadon().addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.exit(0);
+        String search = homeView.getTfSearchhoadon().getText();
+        List<HoaDonResponse> hoaDonList = hoaDonService.searchHoaDon(search);
+        DefaultTableModel model = (DefaultTableModel) homeView.getTable_hoadon().getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+
+        for (HoaDonResponse hd : hoaDonList) {
+          Object[] row = {
+              hd.getIDHoaDon(),
+              hd.getTenKhachHang(),
+              hd.getDiaChi(),
+              hd.getEmail(),
+              hd.getSoDienThoai(),
+              hd.getSanPhamChiTiet(),
+              NumberFormat.getCurrencyInstance().format(hd.getTongTienDonHang()),
+              dateFormat.format(hd.getNgayThanhToan())
+          };
+          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+        }
+      }
+    });
+  }
+  //method refresh
+  public void refresh() {
+    homeView.getBtnHoaDon().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        homeView.getTfSearchhoadon().setText("");
+        findByAllHoaDon();
       }
     });
   }

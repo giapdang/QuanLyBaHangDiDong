@@ -1,5 +1,6 @@
 package view;
 
+import controller.SingUpController;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import model.service.SingUpService;
 
 public class signup extends JFrame {
 
@@ -255,6 +257,155 @@ public class signup extends JFrame {
     this.pack();
   }
 
+  public JLabel getLogLB() {
+    return logLB;
+  }
+
+  public void setLogLB(JLabel logLB) {
+    this.logLB = logLB;
+  }
+
+  public JLabel getUserLB() {
+    return userLB;
+  }
+
+  public void setUserLB(JLabel userLB) {
+    this.userLB = userLB;
+  }
+
+  public JLabel getPassLB() {
+    return passLB;
+  }
+
+  public void setPassLB(JLabel passLB) {
+    this.passLB = passLB;
+  }
+
+  public JLabel getEmailLB() {
+    return emailLB;
+  }
+
+  public void setEmailLB(JLabel emailLB) {
+    this.emailLB = emailLB;
+  }
+
+  public JLabel getPhoneLB() {
+    return phoneLB;
+  }
+
+  public void setPhoneLB(JLabel phoneLB) {
+    this.phoneLB = phoneLB;
+  }
+
+  public JButton getSigBT() {
+    return sigBT;
+  }
+
+  public void setSigBT(JButton sigBT) {
+    this.sigBT = sigBT;
+  }
+
+  public JButton getLogBT() {
+    return logBT;
+  }
+
+  public void setLogBT(JButton logBT) {
+    this.logBT = logBT;
+  }
+
+  public JTextField getJTF1() {
+    return JTF1;
+  }
+
+  public void setJTF1(JTextField JTF1) {
+    this.JTF1 = JTF1;
+  }
+
+  public JTextField getJTF2() {
+    return JTF2;
+  }
+
+  public void setJTF2(JTextField JTF2) {
+    this.JTF2 = JTF2;
+  }
+
+  public JTextField getJTF3() {
+    return JTF3;
+  }
+
+  public void setJTF3(JTextField JTF3) {
+    this.JTF3 = JTF3;
+  }
+
+  public JPasswordField getJPF1() {
+    return JPF1;
+  }
+
+  public void setJPF1(JPasswordField JPF1) {
+    this.JPF1 = JPF1;
+  }
+
+  public JLabel getERROR1() {
+    return ERROR1;
+  }
+
+  public void setERROR1(JLabel ERROR1) {
+    this.ERROR1 = ERROR1;
+  }
+
+  public JLabel getERROR2() {
+    return ERROR2;
+  }
+
+  public void setERROR2(JLabel ERROR2) {
+    this.ERROR2 = ERROR2;
+  }
+
+  public JLabel getERROR3() {
+    return ERROR3;
+  }
+
+  public void setERROR3(JLabel ERROR3) {
+    this.ERROR3 = ERROR3;
+  }
+
+  public JLabel getERROR4() {
+    return ERROR4;
+  }
+
+  public void setERROR4(JLabel ERROR4) {
+    this.ERROR4 = ERROR4;
+  }
+
+
+  public void setBackground(Background background) {
+    this.background = background;
+  }
+
+  public JPanel getInputpn() {
+    return inputpn;
+  }
+
+  public void setInputpn(JPanel inputpn) {
+    this.inputpn = inputpn;
+  }
+
+  public ActionListener getLogin() {
+    return login;
+  }
+
+  public void setLogin(ActionListener login) {
+    this.login = login;
+  }
+
+  public ActionListener getSignin() {
+    return signin;
+  }
+
+  public void setSignin(ActionListener signin) {
+    this.signin = signin;
+  }
+
   public void addEvent() {
     sigBT.addActionListener(signin);
     logBT.addActionListener(login);
@@ -269,9 +420,11 @@ public class signup extends JFrame {
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
-  public static void main(String[] args) {
-    signup ui = new signup("Đăng Nhập");
-    ui.showWindow();
-  }
+//  public static void main(String[] args) {
+//    signup ui = new signup("Đăng Nhập");
+//    ui.showWindow();
+//    SingUpService singUpService = new SingUpService(ui);
+//    SingUpController singUpController = new SingUpController(ui, singUpService);
+//  }
 }
 

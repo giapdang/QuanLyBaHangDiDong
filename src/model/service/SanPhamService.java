@@ -22,7 +22,7 @@ public class SanPhamService {
     this.homeView = homeView;
   }
 
-  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   private static final String SELECT_SAN_PHAM =
       "select sp.IDSanPham, sp.MaSanPham, sp.TenSanPham, sp.GiaBanRa, sp.GiaNhap, sp.MoTa, sp.ThoiGianNhap, "
@@ -115,8 +115,8 @@ public class SanPhamService {
       insertProductStatement.setDouble(4, Double.parseDouble(homeView.getTfGiaNhap().getText()));
       insertProductStatement.setString(5, homeView.getTfMoTa().getText());
 
-      Date ThoiGianNhap = dateFormat.parse(homeView.getTfThoiGianNhap().getText());
-      insertProductStatement.setString(6, dateFormat.format(ThoiGianNhap));
+//      Date ThoiGianNhap = dateFormat.parse(homeView.getTfThoiGianNhap().getText());
+      insertProductStatement.setString(6, dateFormat.format(new Date()));
 
       Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
       insertProductStatement.setInt(7, selectedDanhMuc.getId());
@@ -136,7 +136,7 @@ public class SanPhamService {
           "INSERT INTO khohang (IDSanPham,SoLuongTonKho, NgayNhapKho,IDNhaCungCap,IDNguoiNhap) VALUES (?,?,?,?,?)");
       insertStockStatement.setInt(1, IDSanPham);
       insertStockStatement.setInt(2, Integer.parseInt(homeView.getTfSoluong().getText()));
-      insertStockStatement.setString(3, dateFormat.format(ThoiGianNhap));
+      insertStockStatement.setString(3, dateFormat.format(new Date()));
       insertStockStatement.setInt(4, selectedNhaCungCap.getId());
 
       // Lấy ID người nhập hàng
@@ -172,8 +172,8 @@ public class SanPhamService {
           Double.parseDouble(homeView.getTfGiaNhap().getText().trim()));
       updateProductStatement.setString(5, homeView.getTfMoTa().getText().trim());
 
-      Date ThoiGianNhap = dateFormat.parse(homeView.getTfThoiGianNhap().getText().trim());
-      updateProductStatement.setString(6, dateFormat.format(ThoiGianNhap));
+//      Date ThoiGianNhap = dateFormat.parse(homeView.getTfThoiGianNhap().getText().trim());
+      updateProductStatement.setString(6, dateFormat.format(new Date()));
 
       Item selectedDanhMuc = (Item) homeView.getCbTenDanhMuc().getSelectedItem();
       updateProductStatement.setInt(7, selectedDanhMuc.getId());
@@ -188,7 +188,7 @@ public class SanPhamService {
       updateStockStatement = connection.prepareStatement(
           "UPDATE khohang SET SoLuongTonKho = ?, NgayNhapKho = ?, IDNhaCungCap = ?, IDNguoiNhap = ? WHERE IDSanPham = ?");
       updateStockStatement.setInt(1, Integer.parseInt(homeView.getTfSoluong().getText().trim()));
-      updateStockStatement.setString(2, dateFormat.format(ThoiGianNhap));
+      updateStockStatement.setString(2, dateFormat.format(new Date()));
       updateStockStatement.setInt(3, selectedNhaCungCap.getId());
 
       //lay id nguoi nhap

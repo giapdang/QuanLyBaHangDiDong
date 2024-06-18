@@ -34,7 +34,6 @@ public class SanPhamController {
     loadSanPham();
     deleteSanPham();
     addSanPham();
-    exit();
     updateSanPham();
     clickMouse();
     viewProductDetails();
@@ -196,16 +195,6 @@ public class SanPhamController {
             break;
           }
         }
-      }
-    });
-  }
-
-  //method thoat
-  public void exit() {
-    homeView.getBtnExit().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
       }
     });
   }

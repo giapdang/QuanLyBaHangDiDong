@@ -24,8 +24,9 @@ public class DanhMucController {
     deleteDanhMuc();
     updateDanhMuc();
     clickMouse();
-    exit();
     refreshDanhMucList();
+    searchDanhMuc();
+    loadDanhMuc();
   }
 
   //method all danh muc
@@ -124,16 +125,6 @@ public class DanhMucController {
     });
   }
 
-  //method thoat
-  public void exit() {
-    homeView.getBtnExit1().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
-
   public void refreshDanhMucList() {
     // Clear the JComboBox
     JComboBox<Item> CbTenDanhMuc = homeView.getCbTenDanhMuc();
@@ -144,5 +135,35 @@ public class DanhMucController {
     for (Item item : updatedDanhMucNames) {
       CbTenDanhMuc.addItem(item);
     }
+  }
+  //method tim kiem danh muc theo ten danh muc va id danh muc
+  public void searchDanhMuc() {
+    homeView.getBtnSearchdanhmuc().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String search = homeView.getTfSearchdanhmuc().getText();
+        List<DanhMucSanPham> danhMucList = danhMucService.searchDanhMuc(search);
+        DefaultTableModel model = (DefaultTableModel) homeView.getTable_danhmuc().getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
+
+        for (DanhMucSanPham dm : danhMucList) {
+          Object[] row = {
+              dm.getIDDanhMuc(),
+              dm.getTenDanhMuc(),
+              dm.getMoTaDanhMuc()
+          };
+          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+        }
+      }
+    });
+  }
+  //method load danh sach danh muc
+  public void loadDanhMuc() {
+    homeView.getBtnDanhMuc().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        findAllDanhMuc();
+      }
+    });
   }
 }

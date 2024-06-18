@@ -23,9 +23,10 @@ public class KhachHangController {
     addKhachHang();
     updateKhachHang();
     delete();
-    exit();
     clickMouse();
     refreshKhachHangList();
+    timKiemKhachHang();
+    loadKhachHang();
   }
 
   //method all thong tin khach hang
@@ -123,15 +124,6 @@ public class KhachHangController {
     });
   }
 
-  //method exit
-  public void exit() {
-    homeView.getBtnExitkh().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
   //method click mouse
   public void clickMouse() {
     homeView.getTable_khachhang().addMouseListener(new java.awt.event.MouseAdapter() {
@@ -156,5 +148,36 @@ public class KhachHangController {
       CbTenKhachHang.addItem(item);
     }
   }
+ //method tim kiem khach hang
+  public void timKiemKhachHang() {
+    homeView.getBtnSearchkhachhang().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String search = homeView.getTfSearchkhachhang().getText();
+        List<KhachHang> khachHangList = khachHangService.searchKhachHang(search);
+        DefaultTableModel model = (DefaultTableModel) homeView.getTable_khachhang().getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng hiện có trong bảng
 
+        for (KhachHang kh : khachHangList) {
+          Object[] row = {
+              kh.getIDKhachHang(),
+              kh.getTenKhachHang(),
+              kh.getDiaChi(),
+              kh.getSoDienThoai(),
+              kh.getEmail()
+          };
+          model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
+        }
+      }
+    });
+  }
+  //method load khach hang
+  public void loadKhachHang() {
+    homeView.getBtnKhachHang().addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        allKhachHang();
+      }
+    });
+  }
 }
