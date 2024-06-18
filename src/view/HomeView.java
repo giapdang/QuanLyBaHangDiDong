@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import model.response.Item;
 import model.service.DanhMucService;
 import java.util.List;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
 import model.service.DonHangService;
 import model.service.KhachHangService;
@@ -43,6 +45,8 @@ public class HomeView extends JFrame {
     private JButton btnChitietdonhang;
     private JButton btnKhoHang;
     private JButton btnBaocao;
+    private JButton btnLogout;
+    private JButton btnShutdown;
     private JButton previousButton;
 
     //Cac thuoc tinh dung trong muc San Pham
@@ -50,7 +54,7 @@ public class HomeView extends JFrame {
     private JButton btnAdd;
     private JButton btnEdit;
     private JButton btnDelete;
-    private JButton btnExit;
+
     private JLabel lbMasanpham;
     private JLabel lbTensanpham;
     private JLabel lbGiaBan;
@@ -78,7 +82,7 @@ public class HomeView extends JFrame {
     private JTable table_hoadon;
     private JButton btnSearchhoadon;
     private JTextField TfSearchhoadon;
-    private JButton btnViewhoadon, btnExithoadon;
+    private JButton btnViewhoadon;
 
     //Cac thuoc tinh dung trong muc Danh Muc
     private JLabel lbTenDanhmuc;
@@ -86,7 +90,7 @@ public class HomeView extends JFrame {
     private JLabel lbMotadanhmuc;
     private JTextField TfMotadanhmuc;
     private JTable table_danhmuc;
-    private JButton btnAdd1, btnEdit1, btnDelete1, btnExit1;
+    private JButton btnAdd1, btnEdit1, btnDelete1;
     private JButton btnSearchdanhmuc;
     private JTextField TfSearchdanhmuc;
 
@@ -98,7 +102,7 @@ public class HomeView extends JFrame {
     private JLabel lbSodienthoai;
     private JTextField TfSodienthoai;
     private JTable table_nhacungcap;
-    private JButton btnAddncc, btnEditncc, btnDeletencc, btnExitncc;
+    private JButton btnAddncc, btnEditncc, btnDeletencc;
     private JButton btnSearchnhacungcap;
     private JTextField TfSearchnhacungcap;
 
@@ -112,7 +116,7 @@ public class HomeView extends JFrame {
     private JLabel lbEmailKhachHang;
     private JTextField TfEmailKhachHang;
     private JTable table_khachhang;
-    private JButton btnAddkh, btnEditkh, btnDeletekh, btnExitkh;
+    private JButton btnAddkh, btnEditkh, btnDeletekh;
     private JButton btnSearchkhachhang;
     private JTextField TfSearchkhachhang;
 
@@ -126,7 +130,7 @@ public class HomeView extends JFrame {
     private JLabel lbSodienthoaiNhanVien;
     private JTextField TfSodienthoaiNhanVien;
     private JTable table_nhanvien;
-    private JButton btnAddnv, btnEditnv, btnDeletenv, btnExitnv;
+    private JButton btnAddnv, btnEditnv, btnDeletenv;
     private JButton btnSearchnhanvien;
     private JTextField TfSearchnhanvien;
 
@@ -142,13 +146,13 @@ public class HomeView extends JFrame {
     private JLabel lbtenKhachhangdonhang;
     private JComboBox<Item> CbtenKhachhangdonhang;
     private JTable table_donhang;
-    private JButton btnAdddonhang, btnEditdonhang, btnDeletedonhang, btnExitdonhang;
+    private JButton btnAdddonhang, btnEditdonhang, btnDeletedonhang;
     private JButton btnSearchdonhang;
     private JTextField TfSearchdonhang;
 
     //Cac thuoc tinh dung trong muc Kho Hang
     private JTable table_khohang;
-    private JButton btnViewkhohang, btnExitkhohang;
+    private JButton btnViewkhohang;
     private JButton btnSearchkhohang;
     private JTextField TfSearchkhohang;
 
@@ -159,15 +163,16 @@ public class HomeView extends JFrame {
     private JLabel lbiddonhang_chitietdonhang;
     private JTextField Tfiddonhang_chitietdonhang;
     private JLabel lbTensanphamchitietdonhang;
-    private JComboBox<Item> CbTensanphamchitietdonhang;
+    private JTextField TfTensanphamchitietdonhang;
     private JLabel lbTenkhachhangchitietdonhang;
     private JTextField TfTenkhachhangchitietdonhang;
     private JLabel lbSoluongchitietdonhang;
     private JTextField TfSoluongchitietdonhang;
     private JLabel lbGiabanchitietdonhang;
-    private JComboBox<Item> CbGiabanchitietdonhang;
+    private JTextField TfGiabanchitietdonhang;
     private JTable table_chitietdonhang;
-    private JButton btnAddchitietdonhang, btnEditchitietdonhang, btnDeletechitietdonhang, btnExitchitietdonhang;
+//    private JButton btnAddchitietdonhang, btnEditchitietdonhang, btnDeletechitietdonhang, btnExitchitietdonhang;
+    private JButton btnUpdatechithietdonhang, btnEditchitietdonhang, btnViewchitietdonhang;
     private JButton btnSearchchitietdonhang;
     private JTextField TfSearchchitietdonhang;
 
@@ -184,12 +189,57 @@ public class HomeView extends JFrame {
     public void HomeUi() {
         // Create left panel with buttons
         JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayout(10, 1));
+        leftPanel.setLayout(new BorderLayout());
         Dimension fixedWidth = new Dimension(300, 0);
         leftPanel.setPreferredSize(fixedWidth);
         leftPanel.setMinimumSize(fixedWidth);
         leftPanel.setMaximumSize(fixedWidth);
-        leftPanel.setBackground(Color.decode("#FBFBFB"));
+        leftPanel.setBackground(Color.decode("#E5E5E5"));
+        JPanel row_0 = new JPanel();
+        row_0.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        row_0.setBackground(Color.decode("#FBFBFB"));
+        row_0.setPreferredSize(new Dimension(250, 100));
+        LineBorder lineBorder = new LineBorder(Color.BLACK, 3);
+        TitledBorder titledBorder = BorderFactory.createTitledBorder(lineBorder, "Tác Vụ");
+        titledBorder.setTitleColor(Color.BLACK);
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 15));
+        titledBorder.setTitleJustification(TitledBorder.LEFT);
+        titledBorder.setTitlePosition(TitledBorder.TOP);
+        ImageIcon icon = new ImageIcon(getClass().getResource("logout.png"));
+        Image original = icon.getImage();
+        Image resizedImage = original.getScaledInstance(25, 30, Image.SCALE_SMOOTH);
+        ImageIcon resizedicon = new ImageIcon(resizedImage);
+        btnLogout = new JButton(resizedicon);
+        btnLogout.setActionCommand("Đăng Xuất");
+        btnLogout.setBackground(Color.decode("#3F4952"));
+        btnLogout.setPreferredSize(new Dimension(50, 50));
+        btnLogout.addActionListener((e) -> {
+            login ui = new login("Đăng Nhập");
+            ui.showWindow();
+            this.dispose();
+        });
+        ImageIcon icon1 = new ImageIcon(getClass().getResource("shutdown.png"));
+        Image original1 = icon1.getImage();
+        Image resizedImage1 = original1.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+        ImageIcon resizedicon1 = new ImageIcon(resizedImage1);
+        btnShutdown = new JButton(resizedicon1);
+        btnShutdown.setActionCommand("Thoát");
+        btnShutdown.setBackground(Color.decode("#3F4952"));
+        btnShutdown.setPreferredSize(new Dimension(50, 50));
+        btnShutdown.addActionListener((e) -> {
+            System.exit(0);
+        });
+        row_0.setBorder(titledBorder);
+        row_0.add(btnLogout);
+        row_0.add(btnShutdown);
+        JPanel row_1 = new JPanel();
+        row_1.setLayout(new GridLayout(10, 1));
+        TitledBorder titledBorder1 = BorderFactory.createTitledBorder(lineBorder, "Danh Mục");
+        titledBorder1.setTitleColor(Color.BLACK);
+        titledBorder1.setTitleFont(new Font("Arial", Font.BOLD, 15));
+        titledBorder1.setTitleJustification(TitledBorder.LEFT);
+        titledBorder1.setTitlePosition(TitledBorder.TOP);
+        row_1.setBorder(titledBorder1);
         btnSanPham = createButton("SẢN PHẨM");
         btnSanPham.setBackground(Color.decode("#638787"));
         btnSanPham.setForeground(Color.decode("#FBFBFB"));
@@ -203,16 +253,18 @@ public class HomeView extends JFrame {
         btnChitietdonhang = createButton("CHI TIẾT ĐƠN HÀNG");
         btnKhoHang = createButton("KHO HÀNG");
         btnBaocao = createButton("BÁO CÁO");
-        leftPanel.add(btnSanPham);
-        leftPanel.add(btnHoaDon);
-        leftPanel.add(btnDanhMuc);
-        leftPanel.add(btnNhaCungCap);
-        leftPanel.add(btnKhachHang);
-        leftPanel.add(btnNhanVien);
-        leftPanel.add(btnDonHang);
-        leftPanel.add(btnChitietdonhang);
-        leftPanel.add(btnKhoHang);
-        leftPanel.add(btnBaocao);
+        row_1.add(btnSanPham);
+        row_1.add(btnHoaDon);
+        row_1.add(btnDanhMuc);
+        row_1.add(btnNhaCungCap);
+        row_1.add(btnKhachHang);
+        row_1.add(btnNhanVien);
+        row_1.add(btnDonHang);
+        row_1.add(btnChitietdonhang);
+        row_1.add(btnKhoHang);
+        row_1.add(btnBaocao);
+        leftPanel.add(row_0, BorderLayout.NORTH);
+        leftPanel.add(row_1, BorderLayout.CENTER);
         cardLayout = new CardLayout();
         rightPanel = new JPanel(cardLayout);
         sanPhamPanel = createSanPhamPanel();
@@ -396,6 +448,10 @@ public class HomeView extends JFrame {
         I.add(lbNguoiNhap);
         I.add(CbNguoiNhap);
 
+        JPanel padding0 = new JPanel();
+        padding0.setBackground(Color.decode("#D1E8D8"));
+        padding0.setPreferredSize(new Dimension(45, padding0.getPreferredSize().height));
+
         JPanel J = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 1));
         J.setBackground(Color.decode("#D1E8D8"));
         TfSearchsanpham = new JTextField(20);
@@ -413,6 +469,7 @@ public class HomeView extends JFrame {
         panel_row2.add(G);
         panel_row2.add(H);
         panel_row2.add(I);
+        panel_row2.add(padding0);
         panel_row2.add(J);
         panel.add(panel_row2);
 
@@ -447,15 +504,9 @@ public class HomeView extends JFrame {
         btnDelete.setBackground(Color.decode("#3F4952"));
         btnDelete.setForeground(Color.decode("#FFFFFF"));
         btnDelete.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExit = new JButton("Thoát");
-        btnExit.setPreferredSize(new Dimension(100, 50));
-        btnExit.setBackground(Color.decode("#3F4952"));
-        btnExit.setForeground(Color.decode("#FFFFFF"));
-        btnExit.setFont(new Font("Arial", Font.BOLD, 20));
         actionPanel.add(btnAdd);
         actionPanel.add(btnEdit);
         actionPanel.add(btnDelete);
-        actionPanel.add(btnExit);
         panel.add(actionPanel);
         return panel;
     }
@@ -517,13 +568,7 @@ public class HomeView extends JFrame {
         btnViewhoadon.setBackground(Color.decode("#3F4952"));
         btnViewhoadon.setForeground(Color.decode("#FFFFFF"));
         btnViewhoadon.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExithoadon = new JButton("Thoát");
-        btnExithoadon.setPreferredSize(new Dimension(100, 50));
-        btnExithoadon.setBackground(Color.decode("#3F4952"));
-        btnExithoadon.setForeground(Color.decode("#FFFFFF"));
-        btnExithoadon.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnViewhoadon);
-        row_4.add(btnExithoadon);
         panel.add(row_4);
         panel.setBackground(Color.decode("#D1E8D8"));
         return panel;
@@ -595,7 +640,6 @@ public class HomeView extends JFrame {
         scrollPane.getViewport().setBackground(Color.white);
         scrollPane.setPreferredSize(new Dimension(1200, 700));
         row_3.add(scrollPane);
-        row_3.add(scrollPane);
         row_3.setBackground(Color.decode("#D1E8D8"));
         panel.add(row_3);
         JPanel row_4 = new JPanel();
@@ -616,15 +660,9 @@ public class HomeView extends JFrame {
         btnDelete1.setBackground(Color.decode("#3F4952"));
         btnDelete1.setForeground(Color.decode("#FFFFFF"));
         btnDelete1.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExit1 = new JButton("Thoát");
-        btnExit1.setPreferredSize(new Dimension(100, 50));
-        btnExit1.setBackground(Color.decode("#3F4952"));
-        btnExit1.setForeground(Color.decode("#FFFFFF"));
-        btnExit1.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnAdd1);
         row_4.add(btnEdit1);
         row_4.add(btnDelete1);
-        row_4.add(btnExit1);
         panel.add(row_4);
         return panel;
     }
@@ -721,15 +759,9 @@ public class HomeView extends JFrame {
         btnDeletencc.setBackground(Color.decode("#3F4952"));
         btnDeletencc.setForeground(Color.decode("#FFFFFF"));
         btnDeletencc.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExitncc = new JButton("Thoát");
-        btnExitncc.setPreferredSize(new Dimension(100, 50));
-        btnExitncc.setBackground(Color.decode("#3F4952"));
-        btnExitncc.setForeground(Color.decode("#FFFFFF"));
-        btnExitncc.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnAddncc);
         row_4.add(btnEditncc);
         row_4.add(btnDeletencc);
-        row_4.add(btnExitncc);
         panel.add(row_4);
         return panel;
     }
@@ -830,15 +862,9 @@ public class HomeView extends JFrame {
         btnDeletekh.setBackground(Color.decode("#3F4952"));
         btnDeletekh.setForeground(Color.decode("#FFFFFF"));
         btnDeletekh.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExitkh = new JButton("Thoát");
-        btnExitkh.setPreferredSize(new Dimension(100, 50));
-        btnExitkh.setBackground(Color.decode("#3F4952"));
-        btnExitkh.setForeground(Color.decode("#FFFFFF"));
-        btnExitkh.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnAddkh);
         row_4.add(btnEditkh);
         row_4.add(btnDeletekh);
-        row_4.add(btnExitkh);
         panel.add(row_4);
         return panel;
     }
@@ -939,15 +965,9 @@ public class HomeView extends JFrame {
         btnDeletenv.setBackground(Color.decode("#3F4952"));
         btnDeletenv.setForeground(Color.decode("#FFFFFF"));
         btnDeletenv.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExitnv = new JButton("Thoát");
-        btnExitnv.setPreferredSize(new Dimension(100, 50));
-        btnExitnv.setBackground(Color.decode("#3F4952"));
-        btnExitnv.setForeground(Color.decode("#FFFFFF"));
-        btnExitnv.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnAddnv);
         row_4.add(btnEditnv);
         row_4.add(btnDeletenv);
-        row_4.add(btnExitnv);
         panel.add(row_4);
         return panel;
     }
@@ -1080,15 +1100,9 @@ public class HomeView extends JFrame {
         btnDeletedonhang.setBackground(Color.decode("#3F4952"));
         btnDeletedonhang.setForeground(Color.decode("#FFFFFF"));
         btnDeletedonhang.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExitdonhang = new JButton("Thoát");
-        btnExitdonhang.setPreferredSize(new Dimension(100, 50));
-        btnExitdonhang.setBackground(Color.decode("#3F4952"));
-        btnExitdonhang.setForeground(Color.decode("#FFFFFF"));
-        btnExitdonhang.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnAdddonhang);
         row_4.add(btnEditdonhang);
         row_4.add(btnDeletedonhang);
-        row_4.add(btnExitdonhang);
         panel.add(row_4);
         return panel;
     }
@@ -1151,13 +1165,7 @@ public class HomeView extends JFrame {
         btnViewkhohang.setBackground(Color.decode("#3F4952"));
         btnViewkhohang.setForeground(Color.decode("#FFFFFF"));
         btnViewkhohang.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExitkhohang = new JButton("Thoát");
-        btnExitkhohang.setPreferredSize(new Dimension(100, 50));
-        btnExitkhohang.setBackground(Color.decode("#3F4952"));
-        btnExitkhohang.setForeground(Color.decode("#FFFFFF"));
-        btnExitkhohang.setFont(new Font("Arial", Font.BOLD, 20));
         row_4.add(btnViewkhohang);
-        row_4.add(btnExitkhohang);
         panel.add(row_4);
         return panel;
     }
@@ -1189,17 +1197,14 @@ public class HomeView extends JFrame {
         lbiddonhang_chitietdonhang = new JLabel("ID Đơn Hàng:");
         Tfiddonhang_chitietdonhang = new JTextField(20);
         lbTensanphamchitietdonhang = new JLabel("Tên Sản Phẩm:");
-        CbTensanphamchitietdonhang = new JComboBox<>();
-        CbTensanphamchitietdonhang.setPreferredSize(new Dimension(200, CbTensanphamchitietdonhang.getPreferredSize().height));
-//        TfTensanphamchitietdonhang = new JTextField(20);
+
+        TfTensanphamchitietdonhang = new JTextField(20);
         lbTenkhachhangchitietdonhang = new JLabel("Tên Khách Hàng:");
         TfTenkhachhangchitietdonhang = new JTextField(20);
         lbSoluongchitietdonhang = new JLabel("Số Lượng:");
         TfSoluongchitietdonhang = new JTextField(20);
         lbGiabanchitietdonhang = new JLabel("Giá Bán:");
-        CbGiabanchitietdonhang = new JComboBox<>();
-        CbGiabanchitietdonhang.setPreferredSize(new Dimension(200, CbGiabanchitietdonhang.getPreferredSize().height));
-//        TfGiabanchitietdonhang = new JTextField(20);
+        TfGiabanchitietdonhang = new JTextField(20);
         int dodai = lbTenkhachhangchitietdonhang.getPreferredSize().width;
         Dimension labelSize = new Dimension(dodai, lbTenkhachhangchitietdonhang.getPreferredSize().height);
         setLabelSize(lbiddonhang_chitietdonhang, labelSize);
@@ -1209,13 +1214,13 @@ public class HomeView extends JFrame {
         addComponent(subrow1_2, lbiddonhang_chitietdonhang, gbc, 0, 0);
         addComponent(subrow1_2, Tfiddonhang_chitietdonhang, gbc, 1, 0);
         addComponent(subrow1_2, lbTensanphamchitietdonhang, gbc, 0, 1);
-        addComponent(subrow1_2, CbTensanphamchitietdonhang, gbc, 1, 1);
+        addComponent(subrow1_2, TfTensanphamchitietdonhang, gbc, 1, 1);
         addComponent(subrow1_2, lbTenkhachhangchitietdonhang, gbc, 0, 2);
         addComponent(subrow1_2, TfTenkhachhangchitietdonhang, gbc, 1, 2);
         addComponent(subrow1_2, lbSoluongchitietdonhang, gbc, 0, 3);
         addComponent(subrow1_2, TfSoluongchitietdonhang, gbc, 1, 3);
         addComponent(subrow1_2, lbGiabanchitietdonhang, gbc, 0, 4);
-        addComponent(subrow1_2, CbGiabanchitietdonhang, gbc, 1, 4);
+        addComponent(subrow1_2, TfGiabanchitietdonhang, gbc, 1, 4);
         row_1.add(subrow1_2);
         panel.add(row_1);
         JPanel row_2 = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 1));
@@ -1253,30 +1258,34 @@ public class HomeView extends JFrame {
         JPanel row_4 = new JPanel();
         row_4.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 20));
         row_4.setBackground(Color.decode("#D1E8D8"));
-        btnAddchitietdonhang = new JButton("Thêm");
-        btnAddchitietdonhang.setPreferredSize(new Dimension(100, 50));
-        btnAddchitietdonhang.setBackground(Color.decode("#3F4952"));
-        btnAddchitietdonhang.setForeground(Color.decode("#FFFFFF"));
-        btnAddchitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
+//        btnAddchitietdonhang = new JButton("Thêm");
+//        btnAddchitietdonhang.setPreferredSize(new Dimension(100, 50));
+//        btnAddchitietdonhang.setBackground(Color.decode("#3F4952"));
+//        btnAddchitietdonhang.setForeground(Color.decode("#FFFFFF"));
+//        btnAddchitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
         btnEditchitietdonhang = new JButton("Sửa");
         btnEditchitietdonhang.setPreferredSize(new Dimension(100, 50));
         btnEditchitietdonhang.setBackground(Color.decode("#3F4952"));
         btnEditchitietdonhang.setForeground(Color.decode("#FFFFFF"));
         btnEditchitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
-        btnDeletechitietdonhang = new JButton("Xóa");
-        btnDeletechitietdonhang.setPreferredSize(new Dimension(100, 50));
-        btnDeletechitietdonhang.setBackground(Color.decode("#3F4952"));
-        btnDeletechitietdonhang.setForeground(Color.decode("#FFFFFF"));
-        btnDeletechitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
-        btnExitchitietdonhang = new JButton("Thoát");
-        btnExitchitietdonhang.setPreferredSize(new Dimension(100, 50));
-        btnExitchitietdonhang.setBackground(Color.decode("#3F4952"));
-        btnExitchitietdonhang.setForeground(Color.decode("#FFFFFF"));
-        btnExitchitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
-        row_4.add(btnAddchitietdonhang);
+//        btnDeletechitietdonhang = new JButton("Xóa");
+//        btnDeletechitietdonhang.setPreferredSize(new Dimension(100, 50));
+//        btnDeletechitietdonhang.setBackground(Color.decode("#3F4952"));
+//        btnDeletechitietdonhang.setForeground(Color.decode("#FFFFFF"));
+//        btnDeletechitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
+        btnUpdatechithietdonhang = new JButton("Cập Nhật");
+        btnUpdatechithietdonhang.setPreferredSize(new Dimension(150, 50));
+        btnUpdatechithietdonhang.setBackground(Color.decode("#3F4952"));
+        btnUpdatechithietdonhang.setForeground(Color.decode("#FFFFFF"));
+        btnUpdatechithietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
+        btnViewchitietdonhang = new JButton("Xem");
+        btnViewchitietdonhang.setPreferredSize(new Dimension(100, 50));
+        btnViewchitietdonhang.setBackground(Color.decode("#3F4952"));
+        btnViewchitietdonhang.setForeground(Color.decode("#FFFFFF"));
+        btnViewchitietdonhang.setFont(new Font("Arial", Font.BOLD, 20));
+        row_4.add(btnUpdatechithietdonhang);
         row_4.add(btnEditchitietdonhang);
-        row_4.add(btnDeletechitietdonhang);
-        row_4.add(btnExitchitietdonhang);
+        row_4.add(btnViewchitietdonhang);
         panel.add(row_4);
         return panel;
     }
@@ -1372,21 +1381,8 @@ public class HomeView extends JFrame {
         this.btnDelete = btnDelete;
     }
 
-    // tets thu git thoi ma
-    public JButton getBtnExit() {
-        return btnExit;
-    }
-
     public void setBtnDeletencc(JButton btnDeletencc) {
         this.btnDeletencc = btnDeletencc;
-    }
-
-    public JButton getBtnExitncc() {
-        return btnExitncc;
-    }
-
-    public void setBtnExitncc(JButton btnExitncc) {
-        this.btnExitncc = btnExitncc;
     }
 
     public JButton getBtnAddkh() {
@@ -1411,14 +1407,6 @@ public class HomeView extends JFrame {
 
     public void setBtnDeletekh(JButton btnDeletekh) {
         this.btnDeletekh = btnDeletekh;
-    }
-
-    public JButton getBtnExitkh() {
-        return btnExitkh;
-    }
-
-    public void setBtnExitkh(JButton btnExitkh) {
-        this.btnExitkh = btnExitkh;
     }
 
     public JButton getBtnAddnv() {
@@ -1467,14 +1455,6 @@ public class HomeView extends JFrame {
 
     public void setBtnDeletedonhang(JButton btnDeletedonhang) {
         this.btnDeletedonhang = btnDeletedonhang;
-    }
-
-    public JButton getBtnExitdonhang() {
-        return btnExitdonhang;
-    }
-
-    public void setBtnExitdonhang(JButton btnExitdonhang) {
-        this.btnExitdonhang = btnExitdonhang;
     }
 
     public JTextField getTfMasanpham() {
@@ -1733,14 +1713,6 @@ public class HomeView extends JFrame {
         this.table_donhang = table_donhang;
     }
 
-    public JButton getBtnExitkhohang() {
-        return btnExitkhohang;
-    }
-
-    public void setBtnExitkhohang(JButton btnExitkhohang) {
-        this.btnExitkhohang = btnExitkhohang;
-    }
-
     public JLabel getLbNguoiNhap() {
         return lbNguoiNhap;
     }
@@ -1869,10 +1841,6 @@ public class HomeView extends JFrame {
         this.table_chitietdonhang = table_chitietdonhang;
     }
 
-    public JButton getBtnExitnv() {
-        return btnExitnv;
-    }
-
     public JComboBox<Item> getCbTrangthaidonhang() {
         return CbTrangthaidonhang;
     }
@@ -1929,10 +1897,6 @@ public class HomeView extends JFrame {
         this.CbGiaBandonhang = CbGiaBandonhang;
     }
 
-    public void setBtnExitnv(JButton btnExitnv) {
-        this.btnExitnv = btnExitnv;
-    }
-
     //method clear san pham
     public void clearSanPham() {
         TfMasanpham.setText("");
@@ -1982,14 +1946,6 @@ public class HomeView extends JFrame {
         this.btnDonHang = btnDonHang;
     }
 
-    public JButton getBtnExithoadon() {
-        return btnExithoadon;
-    }
-
-    public void setBtnExithoadon(JButton btnExithoadon) {
-        this.btnExithoadon = btnExithoadon;
-    }
-
     public JButton getBtnAdd1() {
         return btnAdd1;
     }
@@ -2012,14 +1968,6 @@ public class HomeView extends JFrame {
 
     public void setBtnDelete1(JButton btnDelete1) {
         this.btnDelete1 = btnDelete1;
-    }
-
-    public JButton getBtnExit1() {
-        return btnExit1;
-    }
-
-    public void setBtnExit1(JButton btnExit1) {
-        this.btnExit1 = btnExit1;
     }
 
     public JButton getBtnAddncc() {
@@ -2278,40 +2226,51 @@ public class HomeView extends JFrame {
         this.lbidchitietdonhang = lbidchitietdonhang;
     }
 
-    public JButton getBtnAddchitietdonhang() {
-        return btnAddchitietdonhang;
+//    public JButton getBtnAddchitietdonhang() {
+//        return btnAddchitietdonhang;
+//    }
+//
+//    public void setBtnAddchitietdonhang(JButton btnAddchitietdonhang) {
+//        this.btnAddchitietdonhang = btnAddchitietdonhang;
+//    }
+//
+//    public JButton getBtnEditchitietdonhang() {
+//        return btnEditchitietdonhang;
+//    }
+//
+//    public void setBtnEditchitietdonhang(JButton btnEditchitietdonhang) {
+//        this.btnEditchitietdonhang = btnEditchitietdonhang;
+//    }
+//
+//    public JButton getBtnDeletechitietdonhang() {
+//        return btnDeletechitietdonhang;
+//    }
+//
+//    public void setBtnDeletechitietdonhang(JButton btnDeletechitietdonhang) {
+//        this.btnDeletechitietdonhang = btnDeletechitietdonhang;
+//    }
+    public JButton getBtnShutdown() {
+        return btnShutdown;
     }
 
-    public void setBtnAddchitietdonhang(JButton btnAddchitietdonhang) {
-        this.btnAddchitietdonhang = btnAddchitietdonhang;
+    public void setBtnShutdown(JButton btnShutdown) {
+        this.btnShutdown = btnShutdown;
     }
 
-    public JButton getBtnEditchitietdonhang() {
-        return btnEditchitietdonhang;
+    public JButton getBtnUpdatechithietdonhang() {
+        return btnUpdatechithietdonhang;
     }
 
-    public void setBtnEditchitietdonhang(JButton btnEditchitietdonhang) {
-        this.btnEditchitietdonhang = btnEditchitietdonhang;
+    public void setBtnUpdatechithietdonhang(JButton btnUpdatechithietdonhang) {
+        this.btnUpdatechithietdonhang = btnUpdatechithietdonhang;
     }
 
-    public JButton getBtnDeletechitietdonhang() {
-        return btnDeletechitietdonhang;
+    public JButton getBtnViewchitietdonhang() {
+        return btnViewchitietdonhang;
     }
 
-    public void setBtnDeletechitietdonhang(JButton btnDeletechitietdonhang) {
-        this.btnDeletechitietdonhang = btnDeletechitietdonhang;
-    }
-
-    public JButton getBtnExitchitietdonhang() {
-        return btnExitchitietdonhang;
-    }
-
-    public void setBtnExitchitietdonhang(JButton btnExitchitietdonhang) {
-        this.btnExitchitietdonhang = btnExitchitietdonhang;
-    }
-
-    public void setBtnExit(JButton btnExit) {
-        this.btnExit = btnExit;
+    public void setBtnViewchitietdonhang(JButton btnViewchitietdonhang) {
+        this.btnViewchitietdonhang = btnViewchitietdonhang;
     }
 
     public JLabel getLbMasanpham() {
@@ -2350,20 +2309,180 @@ public class HomeView extends JFrame {
         this.Tfiddonhang_chitietdonhang = Tfiddonhang_chitietdonhang;
     }
 
-    public JComboBox<Item> getCbTensanphamchitietdonhang() {
-        return CbTensanphamchitietdonhang;
+    public JButton getBtnLogout() {
+        return btnLogout;
     }
 
-    public void setCbTensanphamchitietdonhang(JComboBox<Item> CbTensanphamchitietdonhang) {
-        this.CbTensanphamchitietdonhang = CbTensanphamchitietdonhang;
+    public void setBtnLogout(JButton btnLogout) {
+        this.btnLogout = btnLogout;
     }
 
-    public JComboBox<Item> getCbGiabanchitietdonhang() {
-        return CbGiabanchitietdonhang;
+    public JButton getPreviousButton() {
+        return previousButton;
     }
 
-    public void setCbGiabanchitietdonhang(JComboBox<Item> CbGiabanchitietdonhang) {
-        this.CbGiabanchitietdonhang = CbGiabanchitietdonhang;
+    public void setPreviousButton(JButton previousButton) {
+        this.previousButton = previousButton;
+    }
+
+    public JButton getBtnSearchsanpham() {
+        return btnSearchsanpham;
+    }
+
+    public void setBtnSearchsanpham(JButton btnSearchsanpham) {
+        this.btnSearchsanpham = btnSearchsanpham;
+    }
+
+    public JTextField getTfSearchsanpham() {
+        return TfSearchsanpham;
+    }
+
+    public void setTfSearchsanpham(JTextField TfSearchsanpham) {
+        this.TfSearchsanpham = TfSearchsanpham;
+    }
+
+    public JButton getBtnSearchhoadon() {
+        return btnSearchhoadon;
+    }
+
+    public void setBtnSearchhoadon(JButton btnSearchhoadon) {
+        this.btnSearchhoadon = btnSearchhoadon;
+    }
+
+    public JTextField getTfSearchhoadon() {
+        return TfSearchhoadon;
+    }
+
+    public void setTfSearchhoadon(JTextField TfSearchhoadon) {
+        this.TfSearchhoadon = TfSearchhoadon;
+    }
+
+    public JButton getBtnSearchdanhmuc() {
+        return btnSearchdanhmuc;
+    }
+
+    public void setBtnSearchdanhmuc(JButton btnSearchdanhmuc) {
+        this.btnSearchdanhmuc = btnSearchdanhmuc;
+    }
+
+    public JTextField getTfSearchdanhmuc() {
+        return TfSearchdanhmuc;
+    }
+
+    public void setTfSearchdanhmuc(JTextField TfSearchdanhmuc) {
+        this.TfSearchdanhmuc = TfSearchdanhmuc;
+    }
+
+    public JButton getBtnSearchnhacungcap() {
+        return btnSearchnhacungcap;
+    }
+
+    public void setBtnSearchnhacungcap(JButton btnSearchnhacungcap) {
+        this.btnSearchnhacungcap = btnSearchnhacungcap;
+    }
+
+    public JTextField getTfSearchnhacungcap() {
+        return TfSearchnhacungcap;
+    }
+
+    public void setTfSearchnhacungcap(JTextField TfSearchnhacungcap) {
+        this.TfSearchnhacungcap = TfSearchnhacungcap;
+    }
+
+    public JButton getBtnSearchkhachhang() {
+        return btnSearchkhachhang;
+    }
+
+    public void setBtnSearchkhachhang(JButton btnSearchkhachhang) {
+        this.btnSearchkhachhang = btnSearchkhachhang;
+    }
+
+    public JTextField getTfSearchkhachhang() {
+        return TfSearchkhachhang;
+    }
+
+    public void setTfSearchkhachhang(JTextField TfSearchkhachhang) {
+        this.TfSearchkhachhang = TfSearchkhachhang;
+    }
+
+    public JButton getBtnSearchnhanvien() {
+        return btnSearchnhanvien;
+    }
+
+    public void setBtnSearchnhanvien(JButton btnSearchnhanvien) {
+        this.btnSearchnhanvien = btnSearchnhanvien;
+    }
+
+    public JTextField getTfSearchnhanvien() {
+        return TfSearchnhanvien;
+    }
+
+    public void setTfSearchnhanvien(JTextField TfSearchnhanvien) {
+        this.TfSearchnhanvien = TfSearchnhanvien;
+    }
+
+    public JButton getBtnSearchdonhang() {
+        return btnSearchdonhang;
+    }
+
+    public void setBtnSearchdonhang(JButton btnSearchdonhang) {
+        this.btnSearchdonhang = btnSearchdonhang;
+    }
+
+    public JTextField getTfSearchdonhang() {
+        return TfSearchdonhang;
+    }
+
+    public void setTfSearchdonhang(JTextField TfSearchdonhang) {
+        this.TfSearchdonhang = TfSearchdonhang;
+    }
+
+    public JButton getBtnSearchkhohang() {
+        return btnSearchkhohang;
+    }
+
+    public void setBtnSearchkhohang(JButton btnSearchkhohang) {
+        this.btnSearchkhohang = btnSearchkhohang;
+    }
+
+    public JTextField getTfSearchkhohang() {
+        return TfSearchkhohang;
+    }
+
+    public void setTfSearchkhohang(JTextField TfSearchkhohang) {
+        this.TfSearchkhohang = TfSearchkhohang;
+    }
+
+    public JTextField getTfTensanphamchitietdonhang() {
+        return TfTensanphamchitietdonhang;
+    }
+
+    public void setTfTensanphamchitietdonhang(JTextField TfTensanphamchitietdonhang) {
+        this.TfTensanphamchitietdonhang = TfTensanphamchitietdonhang;
+    }
+
+    public JTextField getTfGiabanchitietdonhang() {
+        return TfGiabanchitietdonhang;
+    }
+
+    public void setTfGiabanchitietdonhang(JTextField TfGiabanchitietdonhang) {
+        this.TfGiabanchitietdonhang = TfGiabanchitietdonhang;
+    }
+
+    public JButton getBtnSearchchitietdonhang() {
+        return btnSearchchitietdonhang;
+    }
+
+    public void setBtnSearchchitietdonhang(JButton btnSearchchitietdonhang) {
+        this.btnSearchchitietdonhang = btnSearchchitietdonhang;
+    }
+
+    public JTextField getTfSearchchitietdonhang() {
+        return TfSearchchitietdonhang;
+    }
+
+    public void setTfSearchchitietdonhang(JTextField TfSearchchitietdonhang) {
+        this.TfSearchchitietdonhang = TfSearchchitietdonhang;
     }
 
 }

@@ -124,14 +124,14 @@ public class KhachHangController {
   }
 
   //method exit
-  public void exit() {
-    homeView.getBtnExitkh().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
+//  public void exit() {
+//    homeView.getBtnExitkh().addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.exit(0);
+//      }
+//    });
+//  }
   //method click mouse
   public void clickMouse() {
     homeView.getTable_khachhang().addMouseListener(new java.awt.event.MouseAdapter() {

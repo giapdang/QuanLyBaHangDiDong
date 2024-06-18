@@ -44,13 +44,13 @@ public class HoaDonController {
       model.addRow(row); // Thêm một hàng mới vào bảng với dữ liệu tương ứng
     }
   }
-  //method exit
-  public void exit() {
-    homeView.getBtnExithoadon().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
+//  //method exit
+//  public void exit() {
+//    homeView.getBtnExithoadon().addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.exit(0);
+//      }
+//    });
+//  }
 }

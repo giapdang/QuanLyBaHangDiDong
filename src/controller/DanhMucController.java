@@ -124,15 +124,15 @@ public class DanhMucController {
     });
   }
 
-  //method thoat
-  public void exit() {
-    homeView.getBtnExit1().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
+//  //method thoat
+//  public void exit() {
+//    homeView.getBtnExit1().addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.exit(0);
+//      }
+//    });
+//  }
 
   public void refreshDanhMucList() {
     // Clear the JComboBox

@@ -51,15 +51,15 @@ public class DonHangController {
     }
   }
 
-  //method exit
-  public void exit() {
-    homeView.getBtnExitdonhang().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
-    });
-  }
+//  //method exit
+//  public void exit() {
+//    homeView.getBtnExitdonhang().addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        System.exit(0);
+//      }
+//    });
+//  }
 
   public void addDonHangAndCtdhAndHoaDon() {
     homeView.getBtnAdddonhang().addActionListener(new ActionListener() {
