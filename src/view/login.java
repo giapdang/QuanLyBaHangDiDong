@@ -1,6 +1,5 @@
 package view;
 
-import controller.LoginController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -20,16 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import model.service.ChiTietDonHangService;
-import model.service.DanhMucService;
-import model.service.DonHangService;
-import model.service.HoaDonService;
-import model.service.KhachHangService;
-import model.service.KhoHangService;
 import model.service.LoginService;
-import model.service.NguoiNhapService;
-import model.service.NhaCungCapService;
-import model.service.SanPhamService;
 
 public class login extends JFrame {
 
@@ -250,12 +240,6 @@ public class login extends JFrame {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 
-  public static void main(String[] args) {
-    login ui = new login("Đăng nhập");
-    LoginService loginService = new LoginService(ui);
-    LoginController loginController = new LoginController(ui, loginService);
-    ui.showWindow();
-  }
 }
 
 

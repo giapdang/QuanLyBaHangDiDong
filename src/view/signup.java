@@ -406,6 +406,7 @@ public class signup extends JFrame {
     this.signin = signin;
   }
 
+
   public void addEvent() {
     sigBT.addActionListener(signin);
     logBT.addActionListener(login);
@@ -420,11 +421,11 @@ public class signup extends JFrame {
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
-//  public static void main(String[] args) {
-//    signup ui = new signup("Đăng Nhập");
-//    ui.showWindow();
-//    SingUpService singUpService = new SingUpService(ui);
-//    SingUpController singUpController = new SingUpController(ui, singUpService);
-//  }
+  public static void main(String[] args) {
+    signup ui = new signup("Đăng Nhập");
+    ui.showWindow();
+    SingUpService singUpService = new SingUpService(ui);
+    SingUpController singUpController = new SingUpController(ui, singUpService);
+  }
 }
 

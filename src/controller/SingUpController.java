@@ -28,7 +28,7 @@ public class SingUpController {
           String MatKhau = singUpView.getJPF1().getText();
           String SoDienThoai = singUpView.getJTF3().getText();
           singUpService.CreateUser(TenNguoiNhap, Email, MatKhau, SoDienThoai);
-        } catch(Exception a) {
+        } catch (Exception a) {
           a.printStackTrace();
         }
       }

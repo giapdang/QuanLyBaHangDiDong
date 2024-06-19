@@ -3,6 +3,8 @@ package model.service;
 import database.Jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import view.signup;
 
 public class SingUpService {
@@ -15,7 +17,7 @@ public class SingUpService {
 
   //method them user
   public void CreateUser(String TenNguoiNhap, String Email, String MatKhau, String SoDienThoai) {
-    String query = "INSERT INTO nguoinhap(TenNguoiNhap, Email, MatKhau, SoDienThoai) VALUES(?,?,?,?)";
+    String query = "INSERT INTO nguoinhap(tennguoinhap, email, matkhau, sodienthoai) VALUES (?, ?, ?, ?)";
     try (Connection connection = Jdbc.getJdbc();
         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
       preparedStatement.setString(1, TenNguoiNhap);

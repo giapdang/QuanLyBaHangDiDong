@@ -105,5 +105,43 @@ public class HoaDonService {
     }
     return hoaDonList;
   }
+
+  //method findById hoa don
+  public HoaDonResponse findById(String name) {
+    HoaDonResponse hoaDon = null;
+    String query = "SELECT hd.IDHoaDon, kh.TenKhachHang, kh.DiaChi, kh.Email, kh.SoDienThoai, "
+        + "GROUP_CONCAT(CONCAT('TenSanPham: ', sp.TenSanPham, ', MaSanPham: ', sp.MaSanPham, ', SoLuong: ', ctdh.SoLuong, ', GiaBan: ', ctdh.GiaBan, ', TongTienDonHang: ', dh.TongTienDonHang) SEPARATOR '; ') AS SanPhamChiTiet, "
+        + "SUM(dh.TongTienDonHang) AS TongTienDonHang, "
+        + "MAX(hd.NgayThanhToan) AS NgayThanhToan "
+        + "FROM DonHang dh "
+        + "JOIN KhachHang kh ON dh.IDKhachHang = kh.IDKhachHang "
+        + "JOIN ChiTietDonHang ctdh ON ctdh.IDDonHang = dh.IDDonHang "
+        + "JOIN SanPham sp ON sp.IDSanPham = ctdh.IDSanPham "
+        + "JOIN HoaDon hd ON hd.IDDonHang = dh.IDDonHang "
+        + "WHERE kh.TenKhachHang LIKE ? "
+        + "GROUP BY kh.IDKhachHang";
+    try (Connection connection = Jdbc.getJdbc();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setString(1, "%" + name + "%");
+      ResultSet rs = preparedStatement.executeQuery();
+
+      while (rs.next()) {
+        int IDHoaDon = rs.getInt("IDHoaDon");
+        String TenKhachHang = rs.getString("TenKhachHang");
+        String DiaChi = rs.getString("DiaChi");
+        String Email = rs.getString("Email");
+        String SoDienThoai = rs.getString("SoDienThoai");
+        String SanPhamChiTiet = rs.getString("SanPhamChiTiet");
+        double TongTienDonHang = rs.getDouble("TongTienDonHang");
+        Date NgayThanhToan = dateFormat.parse(rs.getString("NgayThanhToan"));
+
+        hoaDon = new HoaDonResponse(TenKhachHang, DiaChi, Email, SoDienThoai,
+            IDHoaDon, SanPhamChiTiet, TongTienDonHang, NgayThanhToan);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return hoaDon;
+  }
 }
 
